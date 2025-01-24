@@ -13,32 +13,63 @@ import pandas as pd
 from skimage.transform import rotate
 import random
 
-class TrainDataset():
-    def __init__(self, image_path, label_path, is_robustness):
+class TrainDataset:
+    def __init__(self, image_path, label_path, text_path=None, is_robustness=False):
+        """
+        初始化数据集。
 
+        Args:
+            image_path (str): 图像数据路径。
+            label_path (str): 标签数据路径。
+            text_path (str, optional): 文本数据路径。如果为 None，则不加载文本。默认为 None。
+            is_robustness (bool): 是否采用鲁棒性测试模式。
+        """
         self.image_path = image_path
         self.label_path = label_path
+        self.text_path = text_path
         self.is_robustness = is_robustness
 
+        # 获取文件列表
         self.image_list = sorted(os.listdir(self.image_path))
         self.label_list = sorted(os.listdir(self.label_path))
+        self.text_list = sorted(os.listdir(self.text_path)) if self.text_path else None
 
         if self.is_robustness:
-            self.image_list, self.label_list = self.get_images_and_labels_path_for_loop()
+            self.image_list, self.label_list, self.text_list = self.get_images_labels_and_texts_path_for_loop()
 
     def __getitem__(self, item):
+        """
+        获取单个数据项。
 
+        Args:
+            item (int): 索引。
+
+        Returns:
+            Tuple[torch.Tensor, torch.Tensor, Optional[str], Tuple[torch.Tensor, torch.Tensor]]:
+                图像张量、标签张量、可选的文本嵌入、点提示 (点坐标, 点标签)。
+        """
+        # 加载图像
         image_name = self.image_list[item]
         image = Image.open(os.path.join(self.image_path, image_name)).convert('RGB')
-        image = image.resize((1024, 1024), Image.ANTIALIAS)
+        image = image.resize((1024,1024), Image.ANTIALIAS)
         image = transforms.ToTensor()(image)
 
+        # 加载标签
         label_name = self.label_list[item]
         label = Image.open(os.path.join(self.label_path, label_name)).convert('L')
         label = label.resize((256, 256), Image.ANTIALIAS)
-
         label = transforms.ToTensor()(label).long()
 
+        # 加载文本（如果存在）
+        text = None
+        if self.text_list:
+            text_name = self.text_list[item]
+            with open(os.path.join(self.text_path, text_name), 'r') as f:
+                text = f.read().strip()
+
+        # 我要写个helloworld函数
+        
+        # 生成点提示
         points_scale = np.array(image.shape[1:])[None, ::-1]
         point_grids = build_all_layer_point_grids(
             n_per_side=32,
@@ -50,46 +81,100 @@ class TrainDataset():
         in_labels = torch.ones(in_points.shape[0], dtype=torch.int, device='cuda')
         points = (in_points, in_labels)
 
-        return image, label, points
+        # 返回内容
+        if text is not None:
+            return image, label, points, text
+        else:
+            return image, label, points
 
     def __len__(self):
+        """
+        返回数据集长度。
 
+        Returns:
+            int: 数据集的样本数。
+        """
         return len(self.image_list)
 
-    def get_images_and_labels_path_for_loop(self):
+    def get_images_labels_and_texts_path_for_loop(self):
+        """
+        获取鲁棒性测试模式下的图像、标签和文本路径列表。
 
+        Returns:
+            Tuple[List[str], List[str], Optional[List[str]]]: 图像路径、标签路径、可选的文本路径列表。
+        """
         self.label_list_robust = sorted([img for img in random.sample(self.label_list, 5)])
         self.image_list_robust = sorted([self.image_list[self.label_list.index(image)] for image in self.label_list_robust])
-        print(f'train list:{self.label_list_robust}')
+        self.text_list_robust = (
+            sorted([self.text_list[self.label_list.index(image)] for image in self.label_list_robust])
+            if self.text_list else None
+        )
 
-        return self.image_list_robust, self.label_list_robust
+        print(f'Train list: {self.label_list_robust}')
+        return self.image_list_robust, self.label_list_robust, self.text_list_robust
 
 
 
-class TestDataset():
-    def __init__(self, image_path, label_path, is_robustness):
+
+class TestDataset:
+    def __init__(self, image_path, label_path,  text_path=None, gt_path=None, is_robustness=False):
+        """
+        初始化测试数据集。
+
+        Args:
+            image_path (str): 图像数据路径。
+            label_path (str): 标签数据路径。
+            text_path (str, optional): 文本数据路径。如果为 None，则不加载文本。默认为 None。
+            is_robustness (bool): 是否采用鲁棒性测试模式。
+        """
         self.image_path = image_path
         self.label_path = label_path
+        self.text_path = text_path
+        self.gt_path = gt_path
         self.is_robustness = is_robustness
 
+        # 获取文件列表
         self.image_list = sorted(os.listdir(self.image_path))
         self.label_list = sorted(os.listdir(self.label_path))
+        # self.gt_list = natural_sorted(os.listdir(gt_path))
+        self.gt_list = sorted(os.listdir(gt_path), key=natural_sort_key)
+        self.text_list = sorted(os.listdir(self.text_path)) if self.text_path else None
 
         if self.is_robustness:
-            self.image_list, self.label_list = self.get_images_and_labels_path_for_loop()
+            self.image_list, self.label_list, self.text_list = self.get_images_labels_and_texts_path_for_loop()
 
     def __getitem__(self, item):
+        """
+        获取单个数据项。
+
+        Args:
+            item (int): 索引。
+
+        Returns:
+            Tuple[torch.Tensor, torch.Tensor, Optional[str], Tuple[torch.Tensor, torch.Tensor]]:
+                图像张量、标签张量、可选的文本嵌入、点提示 (点坐标, 点标签)。
+        """
+        # 加载图像
         image_name = self.image_list[item]
         image = Image.open(os.path.join(self.image_path, image_name)).convert('RGB')
         image = image.resize((1024, 1024), Image.ANTIALIAS)
         image = transforms.ToTensor()(image)
 
+        # 加载标签
         label_name = self.label_list[item]
         label = Image.open(os.path.join(self.label_path, label_name)).convert('L')
         label = label.resize((256, 256), Image.ANTIALIAS)
-
         label = transforms.ToTensor()(label).long()
 
+        # 加载文本（如果存在）
+        text = None
+        if self.text_list:
+            text_name = self.text_list[item]
+            with open(os.path.join(self.text_path, text_name), 'r') as f:
+                text = f.read().strip()
+
+
+        # 生成点提示
         points_scale = np.array(image.shape[1:])[None, ::-1]
         point_grids = build_all_layer_point_grids(
             n_per_side=32,
@@ -101,18 +186,44 @@ class TestDataset():
         in_labels = torch.ones(in_points.shape[0], dtype=torch.int, device='cuda')
         points = (in_points, in_labels)
 
-        return image, label, points
+        # 返回内容
+        if text is not None:
+            return image, label, points, text
+        else:
+            return image, label, points
 
     def __len__(self):
+        """
+        返回数据集长度。
+
+        Returns:
+            int: 数据集的样本数。
+        """
         return len(self.image_list)
 
-    def get_images_and_labels_path_for_loop(self):
-        self.label_list_robust = sorted([img for img in random.sample(self.label_list, 1)])
-        self.image_list_robust = sorted(
-            [self.image_list[self.label_list.index(image)] for image in self.label_list_robust])
-        print(f'val list:{self.label_list_robust}')
+    def get_images_labels_and_texts_path_for_loop(self):
+        """
+        获取鲁棒性测试模式下的图像、标签和文本路径列表。
 
-        return self.image_list_robust, self.label_list_robust
+        Returns:
+            Tuple[List[str], List[str], Optional[List[str]]]: 图像路径、标签路径、可选的文本路径列表。
+        """
+        self.label_list_robust = sorted([img for img in random.sample(self.label_list, 5)])
+        self.image_list_robust = sorted([self.image_list[self.label_list.index(image)] for image in self.label_list_robust])
+        self.text_list_robust = (
+            sorted([self.text_list[self.label_list.index(image)] for image in self.label_list_robust])
+            if self.text_list else None
+        )
+
+        print(f'Train list: {self.label_list_robust}')
+        return self.image_list_robust, self.label_list_robust, self.text_list_robust
+        
+def natural_sort_key(s):
+    import re
+    # 提取文件名中的数字部分用于排序
+    match = re.search(r'(\d+)', s)
+    return int(match.group(1)) if match else float('inf')
+
 
 
 

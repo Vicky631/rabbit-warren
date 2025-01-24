@@ -7,10 +7,13 @@ sys.path.append(rootPath)
 from tensorboardX import SummaryWriter
 from dataset import *
 from SAM_conf import settings
-from notebooks.SAM_conf import SAM_cfg
+from SAM_conf import SAM_cfg
 from torch.utils.data import DataLoader
-from notebooks.SAM_conf.SAM_utils import *
+from SAM_conf.SAM_utils import *
 import function
+
+from tqdm import tqdm
+
 
 args = SAM_cfg.parse_args()
 
@@ -42,7 +45,7 @@ if args.weights != 0:
     logger = create_logger(args.path_helper['log_path'])
     print(f'=> loaded checkpoint {checkpoint_file} (epoch {start_epoch})')
 
-args.path_helper = set_log_dir('../logs', args.exp_name)
+args.path_helper = set_log_dir('./model_checkpoint/encoder', args.exp_name)
 logger = create_logger(args.path_helper['log_path'])
 logger.info(args)
 
@@ -101,6 +104,8 @@ for epoch in range(settings.EPOCH):
     if args.mod == 'sam_adpt':
         net.train()
         time_start = time.time()
+
+        torch.set_grad_enabled(True)
         loss = function.train_sam(args, net, optimizer, nice_train_loader, epoch, writer, vis=args.vis)
         logger.info(f'Train loss: {loss}|| @ epoch {epoch}.')
         time_end = time.time()

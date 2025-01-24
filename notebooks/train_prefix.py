@@ -3,9 +3,11 @@ import os
 curPath = os.path.abspath(os.path.dirname(__file__))
 rootPath = os.path.split(curPath)[0]
 sys.path.append(rootPath)
-
+import sys
+sys.path.insert(0, "/home/zy/wjj/Prompt_sam_localization/segment_anything")
 from tensorboardX import SummaryWriter
 from dataset import *
+from SAM_conf import SAM_cfg
 from SAM_conf import settings
 from torch.utils.data import DataLoader
 from SAM_conf.SAM_utils import *
@@ -38,14 +40,14 @@ if args.weights != 0:
     logger = create_logger(args.path_helper['log_path'])
     print(f'=> loaded checkpoint {checkpoint_file} (epoch {start_epoch})')
 
-args.path_helper = set_log_dir('../logs', args.exp_name)
+args.path_helper = set_log_dir('./model_checkpoint/prefix', args.exp_name)
 # args.path_helper = set_log_dir('../whether_finetune', args.exp_name)
 logger = create_logger(args.path_helper['log_path'])
 logger.info(args)
 
 '''segmentation data'''
 transform_train = transforms.Compose([
-    transforms.Resize((args.image_size, args.image_size)),
+    transforms.Resize((args.image_size, args.image_size)),  # 1024
     transforms.ToTensor(),
 ])
 
@@ -60,7 +62,7 @@ transform_test = transforms.Compose([
 ])
 
 transform_test_seg = transforms.Compose([
-    transforms.Resize((args.out_size, args.out_size)),
+    transforms.Resize((args.out_size, args.out_size)),  # 256
     transforms.ToTensor(),
 ])
 

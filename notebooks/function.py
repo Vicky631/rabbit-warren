@@ -25,7 +25,7 @@ GPUdevice = torch.device('cuda', args.gpu_device)
 pos_weight = torch.ones([1]).cuda(device=GPUdevice) * 2
 criterion_G = torch.nn.BCEWithLogitsLoss(
     pos_weight=pos_weight)
-seed = torch.randint(1, 11, (args.b, 7))
+seed = torch.randint(1, 11, (args.batch_size, 7))
 
 torch.backends.cudnn.benchmark = True
 loss_function = DiceCELoss(to_onehot_y=True, softmax=True)
@@ -291,14 +291,20 @@ def train_sam(args, net: nn.Module, optimizer, train_loader,
             
             '''Train'''
             for n, value in net.named_parameters():
+
                 if "Adapter" not in n:
                     if args.fine_tuning_configuration:
-                        if 1 not in [1 for val in sam_no_freeze_block if val in n]: 
+                        if 1 not in [1 for val in sam_no_freeze_block if val in n]:
                             value.requires_grad = False
+                            # value.requires_grad =True
                     else:
                         value.requires_grad = False
+                else:
+                    value.requires_grad = True
+            print("Checking parameters in net.named_parameters():")
+            for n, value in net.named_parameters():
 
-
+                print(f"Parameter name: {n}, requires_grad: {value.requires_grad}, shape: {value.shape}")
             imge = net.image_encoder(imgs)  # image embeddings
 
             if args.prompt_approach == 'box':
@@ -324,9 +330,11 @@ def train_sam(args, net: nn.Module, optimizer, train_loader,
             )
 
             loss = lossfunc(pred, masks)  # pred -> mask  masks -> label
-
+            loss.requires_grad = True  # 我添加的
             pbar.set_postfix(**{'loss (batch)': loss.item()})
             epoch_loss += loss.item()
+
+
             loss.backward()
 
             optimizer.step()

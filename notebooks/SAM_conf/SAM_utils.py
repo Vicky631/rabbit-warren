@@ -44,7 +44,8 @@ from collections import OrderedDict
 import numpy as np
 from PIL import Image
 import torch
-
+import sys
+sys.path.insert(0, "/home/zy/wjj/Prompt_sam_localization/segment_anything")
 from notebooks.SAM_conf import SAM_cfg
 # from precpt import run_precpt
 from segment_anything.modeling.discriminator import Discriminator
