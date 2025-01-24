@@ -104,7 +104,9 @@ class Sam(nn.Module):
                 points=points,
                 boxes=image_record.get("boxes", None),
                 masks=image_record.get("mask_inputs", None),
+                text=image_record.get("text", None),  # 新增文本提示
             )
+
             low_res_masks, iou_predictions = self.mask_decoder(
                 image_embeddings=curr_embedding.unsqueeze(0),
                 image_pe=self.prompt_encoder.get_dense_pe(),

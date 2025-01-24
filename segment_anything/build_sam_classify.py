@@ -1,19 +1,17 @@
 
-from functools import partial
-from pathlib import Path
-import urllib.request
 import torch
 
-from segment_anything.modeling.image_encoder_adapter import ImageEncoderViT
-from segment_anything.modeling.mask_decoder_adapter import  MaskDecoder
+from functools import partial
+
+from segment_anything.modeling.image_encoder import ImageEncoderViT
+from segment_anything.modeling.mask_decoder_classify import  MaskDecoder
 from segment_anything.modeling.prompt_encoder import  PromptEncoder
-from segment_anything.modeling.sam_adatper import Sam
+from segment_anything.modeling.sam import Sam
 from segment_anything.modeling.transformer import TwoWayTransformer
 
 
-def build_sam_vit_h(args=None, checkpoint=None):
+def build_sam_vit_h(checkpoint=None):
     return _build_sam(
-        args,
         encoder_embed_dim=1280,
         encoder_depth=32,
         encoder_num_heads=16,
@@ -25,9 +23,8 @@ def build_sam_vit_h(args=None, checkpoint=None):
 build_sam = build_sam_vit_h
 
 
-def build_sam_vit_l(args, checkpoint=None):
+def build_sam_vit_l(checkpoint=None):
     return _build_sam(
-        args,
         encoder_embed_dim=1024,
         encoder_depth=24,
         encoder_num_heads=16,
@@ -36,9 +33,8 @@ def build_sam_vit_l(args, checkpoint=None):
     )
 
 
-def build_sam_vit_b(args, checkpoint=None):
+def build_sam_vit_b(checkpoint=None):
     return _build_sam(
-        args,
         encoder_embed_dim=768,
         encoder_depth=12,
         encoder_num_heads=12,
@@ -56,21 +52,18 @@ sam_model_registry = {
 
 
 def _build_sam(
-        args,
-        encoder_embed_dim,
-        encoder_depth,
-        encoder_num_heads,
-        encoder_global_attn_indexes,
-        checkpoint=None,
+    encoder_embed_dim,
+    encoder_depth,
+    encoder_num_heads,
+    encoder_global_attn_indexes,
+    checkpoint=None,
 ):
     prompt_embed_dim = 256
     image_size = 1024
     vit_patch_size = 16
     image_embedding_size = image_size // vit_patch_size
     sam = Sam(
-        args,
         image_encoder=ImageEncoderViT(
-            args=args,
             depth=encoder_depth,
             embed_dim=encoder_embed_dim,
             img_size=image_size,
@@ -106,40 +99,8 @@ def _build_sam(
         pixel_std=[58.395, 57.12, 57.375],
     )
     sam.eval()
-    checkpoint = Path(checkpoint)
-    if checkpoint.name == "sam_vit_b_01ec64.pth" and not checkpoint.exists():
-        cmd = input("Download sam_vit_b_01ec64.pth from facebook AI? [y]/n: ")
-        if len(cmd) == 0 or cmd.lower() == 'y':
-            checkpoint.parent.mkdir(parents=True, exist_ok=True)
-            print("Downloading SAM ViT-B checkpoint...")
-            urllib.request.urlretrieve(
-                "https://dl.fbaipublicfiles.com/segment_anything/sam_vit_b_01ec64.pth",
-                checkpoint,
-            )
-            print(checkpoint.name, " is downloaded!")
-    elif checkpoint.name == "sam_vit_h_4b8939.pth" and not checkpoint.exists():
-        cmd = input("Download sam_vit_h_4b8939.pth from facebook AI? [y]/n: ")
-        if len(cmd) == 0 or cmd.lower() == 'y':
-            checkpoint.parent.mkdir(parents=True, exist_ok=True)
-            print("Downloading SAM ViT-H checkpoint...")
-            urllib.request.urlretrieve(
-                "https://dl.fbaipublicfiles.com/segment_anything/sam_vit_h_4b8939.pth",
-                checkpoint,
-            )
-            print(checkpoint.name, " is downloaded!")
-    elif checkpoint.name == "sam_vit_l_0b3195.pth" and not checkpoint.exists():
-        cmd = input("Download sam_vit_l_0b3195.pth from facebook AI? [y]/n: ")
-        if len(cmd) == 0 or cmd.lower() == 'y':
-            checkpoint.parent.mkdir(parents=True, exist_ok=True)
-            print("Downloading SAM ViT-L checkpoint...")
-            urllib.request.urlretrieve(
-                "https://dl.fbaipublicfiles.com/segment_anything/sam_vit_l_0b3195.pth",
-                checkpoint,
-            )
-            print(checkpoint.name, " is downloaded!")
-
     if checkpoint is not None:
         with open(checkpoint, "rb") as f:
             state_dict = torch.load(f)
-        sam.load_state_dict(state_dict, strict=False)
+        sam.load_state_dict(state_dict,strict=False)
     return sam
