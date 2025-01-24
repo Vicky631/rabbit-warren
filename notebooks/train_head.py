@@ -4,7 +4,6 @@ import numpy as np
 from torch.utils.data import DataLoader
 import matplotlib.pyplot as plt
 from unet_model import UNet_model
-# from ori_sam_model import Sam_model
 from segment_anything import sam_model_registry
 from monai.losses import DiceCELoss
 from dataset import TrainDataset,TestDataset
@@ -12,6 +11,11 @@ from torch.autograd import Function
 import time
 import logging
 import argparse
+import sys
+import os
+os.environ['PYTORCH_CUDA_ALLOC_CONF'] = 'max_split_size_mb:128'
+
+sys.path.append('/home/zy/WJJ/SAML/Prompt_sam_localization/segment_anything')
 
 class Sam_model(nn.Module):
     def __init__(self,model_type,sam_checkpoint):
@@ -186,15 +190,15 @@ def train(model,train_dataloader):
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('-data_path', type=str, required=True, default='../dataset', help='The path of cryo-PPP data')
-    parser.add_argument('-data_name', type=str, required=True, help='the name of your dataset')
-    parser.add_argument('-exp_name', type=str, required=True, help='the name of your experiment')
+    parser.add_argument('-data_path', type=str, required=True, default='./dataset/10028/30', help='The path of cryo-PPP data')
+    parser.add_argument('-data_name', type=str, required=True, default='10028',help='the name of your dataset')
+    parser.add_argument('-exp_name', type=str, required=True, default='exp1',help='the name of your experiment')
     parser.add_argument('-bs', type=int, default=1, help='batch size for dataloader')
     parser.add_argument('-epochs', type=int, default=100, help='the number of training sessions')
     parser.add_argument('-lr', type=int, default=0.00005, help='learning rate')
     parser.add_argument('-model_type', type=str, default="vit_h", help='')
-    parser.add_argument('-sam_ckpt', default='../checkpoint/sam_vit_h_4b8939.pth', type=str, help='sam checkpoint path')
-    parser.add_argument('-save_path', type=str, required=True, help='the path to save your training result')
+    parser.add_argument('-sam_ckpt', default='/home/zy/WJJ/SAML/Prompt_sam_localization/checkpoint/sam_vit_h_4b8939.pth', type=str, help='sam checkpoint path')
+    parser.add_argument('-save_path', type=str, required=True, default='./model_checkpoint/head',help='the path to save your training result')
     args = parser.parse_args()
 
     train_image = f'{args.data_path}/train/images/'
@@ -219,6 +223,8 @@ if __name__ == '__main__':
     threshold = (0.1, 0.3, 0.5, 0.7, 0.9)
     optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)
 
+
+    # 开始训练和验证
     for epoch in range(args.epochs):
         epoch_start_time = time.time()
         train(model,train_dataloader)
@@ -235,6 +241,8 @@ if __name__ == '__main__':
             best_loss = val_loss
             best_iou = iou
             best_dice = dice
+            save_dir = args.save_path
+            os.makedirs(save_dir, exist_ok=True)
             torch.save(model.state_dict(), f'{args.save_path}/head_prompt_{args.data_name}_{args.exp_name}.pt')
             logger.info(f"Best model saved!")
 
