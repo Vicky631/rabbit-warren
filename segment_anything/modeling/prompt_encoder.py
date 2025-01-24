@@ -2,10 +2,12 @@
 import numpy as np
 import torch
 from torch import nn
-
 from typing import Any, Optional, Tuple, Type
-
 from .common import LayerNorm2d
+
+from transformers import CLIPTokenizer, CLIPModel
+
+
 
 
 class PromptEncoder(nn.Module):
@@ -16,28 +18,17 @@ class PromptEncoder(nn.Module):
         input_image_size: Tuple[int, int],
         mask_in_chans: int,
         activation: Type[nn.Module] = nn.GELU,
+        text_embedding_dim: int = 768,  # 新增文本嵌入维度
+        clip_model_path: str = "./clip/clip-vit-large-patch14"
     ) -> None:
-        """
-        Encodes prompts for input to SAM's mask decoder.
-
-        Arguments:
-          embed_dim (int): The prompts' embedding dimension
-          image_embedding_size (tuple(int, int)): The spatial size of the
-            image embedding, as (H, W).
-          input_image_size (int): The padded size of the image as input
-            to the image encoder, as (H, W).
-          mask_in_chans (int): The number of hidden channels used for
-            encoding input masks.
-          activation (nn.Module): The activation to use when encoding
-            input masks.
-        """
         super().__init__()
         self.embed_dim = embed_dim
         self.input_image_size = input_image_size
         self.image_embedding_size = image_embedding_size
         self.pe_layer = PositionEmbeddingRandom(embed_dim // 2)
 
-        self.num_point_embeddings: int = 4  # pos/neg point + 2 box corners
+        # 现有的嵌入器
+        self.num_point_embeddings: int = 4
         point_embeddings = [nn.Embedding(1, embed_dim) for i in range(self.num_point_embeddings)]
         self.point_embeddings = nn.ModuleList(point_embeddings)
         self.not_a_point_embed = nn.Embedding(1, embed_dim)
@@ -53,6 +44,11 @@ class PromptEncoder(nn.Module):
             nn.Conv2d(mask_in_chans, embed_dim, kernel_size=1),
         )
         self.no_mask_embed = nn.Embedding(1, embed_dim)
+
+        # 初始化 CLIP 文本编码器
+        self.clip_model = CLIPModel.from_pretrained(clip_model_path).to("cuda" if torch.cuda.is_available() else "cpu")
+        self.text_encoder = nn.Linear(text_embedding_dim, embed_dim)  # 映射到 embed_dim 大小
+
 
     def get_dense_pe(self) -> torch.Tensor:
         """
@@ -99,57 +95,81 @@ class PromptEncoder(nn.Module):
         mask_embedding = self.mask_downscaling(masks)
         return mask_embedding
 
+
+    def _embed_text(self, texts: list) -> torch.Tensor:
+        """
+        使用 CLIP 模型嵌入文本。
+        """
+        tokenizer = CLIPTokenizer.from_pretrained("./clip/clip-vit-large-patch14")
+        inputs = tokenizer(
+            texts,
+            return_tensors="pt",
+            padding=True,
+            truncation=True,
+        ).to(self.clip_model.device)
+
+        with torch.no_grad():
+            clip_embeddings = self.clip_model.get_text_features(**inputs)
+            clip_embeddings = clip_embeddings / clip_embeddings.norm(dim=-1, keepdim=True)  # 归一化
+            return self.text_encoder(clip_embeddings)  # 映射到 embed_dim
+
     def _get_batch_size(
-        self,
-        points: Optional[Tuple[torch.Tensor, torch.Tensor]],
-        boxes: Optional[torch.Tensor],
-        masks: Optional[torch.Tensor],
+            self,
+            points: Optional[Tuple[torch.Tensor, torch.Tensor]],
+            boxes: Optional[torch.Tensor],
+            masks: Optional[torch.Tensor],
+            text: Optional[torch.Tensor] = None  # 添加 text 参数
     ) -> int:
         """
         Gets the batch size of the output given the batch size of the input prompts.
+
+        Arguments:
+            points (Optional[Tuple[torch.Tensor, torch.Tensor]]): 点的坐标和标签。
+            boxes (Optional[torch.Tensor]): 边界框。
+            masks (Optional[torch.Tensor]): 掩码。
+            text (Optional[torch.Tensor]): 文本嵌入。
+
+        Returns:
+            int: Batch size 推断结果。
         """
         if points is not None:
-            return points[0].shape[0]
-            # return points.shape[0]
+            return points[0].shape[0]  # 根据点坐标的批次大小确定
         elif boxes is not None:
-            return boxes.shape[0]
+            return boxes.shape[0]  # 根据边界框的批次大小确定
         elif masks is not None:
-            return masks.shape[0]
+            return masks.shape[0]  # 根据掩码的批次大小确定
+        elif text is not None:
+            return text.shape[0]  # 根据文本嵌入的批次大小确定
         else:
-            return 1
+            return 1  # 默认值
 
     def _get_device(self) -> torch.device:
         return self.point_embeddings[0].weight.device
 
     def forward(
-        self,
-        points: Optional[Tuple[torch.Tensor, torch.Tensor]],
-        # labels: Optional[torch.Tensor],
-        boxes: Optional[torch.Tensor],
-        masks: Optional[torch.Tensor],
+            self,
+            points: Optional[Tuple[torch.Tensor, torch.Tensor]],
+            boxes: Optional[torch.Tensor],
+            masks: Optional[torch.Tensor],
+            text: Optional[torch.Tensor] = None,  # 新增文本输入
     ) -> Tuple[torch.Tensor, torch.Tensor]:
         """
-        Embeds different types of prompts, returning both sparse and dense
-        embeddings.
+        Embeds different types of prompts, returning both sparse and dense embeddings.
 
         Arguments:
-          points (tuple(torch.Tensor, torch.Tensor) or none): point coordinates
-            and labels to embed.
-          boxes (torch.Tensor or none): boxes to embed
-          masks (torch.Tensor or none): masks to embed
+          points (tuple(torch.Tensor, torch.Tensor) or none): point coordinates and labels to embed.
+          boxes (torch.Tensor or none): boxes to embed.
+          masks (torch.Tensor or none): masks to embed.
+          text (torch.Tensor or none): text embeddings to encode.
 
         Returns:
-          torch.Tensor: sparse embeddings for the points and boxes, with shape
-            BxNx(embed_dim), where N is determined by the number of input points
-            and boxes.
-          torch.Tensor: dense embeddings for the masks, in the shape
-            Bx(embed_dim)x(embed_H)x(embed_W)
+          torch.Tensor: sparse embeddings for the points, boxes, and text.
+          torch.Tensor: dense embeddings for the masks.
         """
         bs = self._get_batch_size(points, boxes, masks)
 
         sparse_embeddings = torch.empty((bs, 0, self.embed_dim), device=self._get_device())
         if points is not None:
-
             coords, labels = points
             point_embeddings = self._embed_points(coords, labels, pad=(boxes is None))
             sparse_embeddings = torch.cat([sparse_embeddings, point_embeddings], dim=1)
@@ -157,13 +177,17 @@ class PromptEncoder(nn.Module):
             box_embeddings = self._embed_boxes(boxes)
             sparse_embeddings = torch.cat([sparse_embeddings, box_embeddings], dim=1)
 
+        # 新增：处理文本嵌入
+        if text is not None:
+            text_embeddings = self._embed_text(text)  # 将文本嵌入映射到 embed_dim
+            sparse_embeddings = torch.cat([sparse_embeddings, text_embeddings.unsqueeze(1)], dim=1)
+
         if masks is not None:
             dense_embeddings = self._embed_masks(masks)
         else:
             dense_embeddings = self.no_mask_embed.weight.reshape(1, -1, 1, 1).expand(
                 bs, -1, self.image_embedding_size[0], self.image_embedding_size[1]
             )
-
 
         return sparse_embeddings, dense_embeddings
 
