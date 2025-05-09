@@ -112,19 +112,16 @@ class MaskDecoder(nn.Module):
             sparse_prompt_embeddings: torch.Tensor,
             dense_prompt_embeddings: torch.Tensor,
     ) -> Tuple[torch.Tensor, torch.Tensor]:
-        """Predicts masks. See 'forward' for more details."""
-        # Concatenate output tokens
+
         output_tokens = torch.cat([self.iou_token.weight, self.mask_tokens.weight], dim=0)
         output_tokens = output_tokens.unsqueeze(0).expand(sparse_prompt_embeddings.size(0), -1, -1)
         tokens = torch.cat((output_tokens, sparse_prompt_embeddings), dim=1)
-
-        # Expand per-image data in batch direction to be per-mask
         # src = torch.repeat_interleave(image_embeddings, tokens.shape[0], dim=0)
         if image_embeddings.shape[0] != tokens.shape[0]:
             src = torch.repeat_interleave(image_embeddings, tokens.shape[0], dim=0)
         else:
             src = image_embeddings
-        # src = image_embeddings
+
         src = src + dense_prompt_embeddings
         pos_src = torch.repeat_interleave(image_pe, tokens.shape[0], dim=0)
         b, c, h, w = src.shape
@@ -137,103 +134,90 @@ class MaskDecoder(nn.Module):
         # Upscale mask embeddings and predict masks using the mask tokens
         src = src.transpose(1, 2).view(b, c, h, w)
         upscaled_embedding = self.output_upscaling(src)
-
-        # # Generate mask quality predictions
         iou_pred = self.iou_prediction_head(iou_token_out)
-        # 步骤1：对特征图进行聚/分类
+
+        #聚类方法
         masks = upscaled_embedding
-        # labels, category_embeddings = cluster_image(masks.detach(), 3)
-        # 假设输入特征图的形状为 (2, 32, 256, 256)
-        classifier = PixelClassifier(32).to(masks.device)
-          # 预测像素分类
-        try:
-            import torch.nn.functional as F
-            labels,category_embeddings = classifier.predict(masks)
-          # 显示每个像素的类别标签（0, 1, 或 2）
-        except Exception as e:
-            print(e)
-        # 步骤2：根据聚类标签生成带颜色的输出图像
-        text = "people"
-        # 加载 CLIP 模型
-        clip_model = CLIPModel.from_pretrained("clip/clip-vit-large-patch14")
-        clip_model.eval()  # 设置为评估模式
+        labels, category_embeddings = cluster_image(masks.detach(), 3)
 
-        # 加载 Tokenizer
-        tokenizer = CLIPTokenizer.from_pretrained("clip/clip-vit-large-patch14")
+        #分类方法
+        # classifier = PixelClassifier(32).to(masks.device)
+        # try:
+        #     import torch.nn.functional as F
+        #     labels,category_embeddings = classifier.predict(masks)
+        # except Exception as e:
+        #     print(e)
 
-        # 生成文本嵌入
-        text_embeddings = get_text_embeddings(text, clip_model, tokenizer)
-        projection = torch.nn.Linear(768, 32)  # 创建一个线性层将768维映射到32维
-        text_embeddings_mapped = projection(text_embeddings)
-        # import torch.nn.functional as F
+        # 利用文本引导，生成文本嵌入
+        # text = "people"
+        # clip_model = CLIPModel.from_pretrained("clip/clip-vit-large-patch14")
+        # clip_model.eval()  # 设置为评估模式
+        # tokenizer = CLIPTokenizer.from_pretrained("clip/clip-vit-large-patch14")
+        # text_embeddings = get_text_embeddings(text, clip_model, tokenizer)
+        # projection = torch.nn.Linear(768, 32)  # 创建一个线性层将768维映射到32维
+        # text_embeddings_mapped = projection(text_embeddings)
         #
+        #
+        # # 计算文本和类别的相似性并找出和文本最接近的一个类别
+        # device = category_embeddings.device  # 获取目标设备
+        # text_embeddings_mapped = text_embeddings_mapped.to(device)  # 迁移到相同设备
         # similarities = [cosine_similarity(text_embeddings_mapped, category_embedding) for category_embedding in
         #                 category_embeddings]
-        similarities = [cosine_similarity(text_embeddings_mapped, category_embedding) for category_embedding in
-                        category_embeddings]
+        # similarities = torch.stack(similarities)  # 将列表转换为一个一维张量
+        # best_category_index = torch.argmax(similarities)
 
-        # 找到与文本最相似的类别
-        best_category_index = torch.argmax(torch.tensor(similarities))
-        filtered_labels = (labels == best_category_index).long()
+        # 将其他类别置零
+        # filtered_labels = (labels == best_category_index).long()
 
-        # colored_image = generate_colored_image(filtered_labels.detach(), 3)
-        colored_image = generate_colored_image(predicted_classes.clone(), 3)
-
-        binary_image = convert_to_grayscale(colored_image)
+        # 生成mask可视化图
+        colored_image = generate_colored_image(labels.clone().cpu(), 2)
+        # binary_image = convert_to_grayscale(colored_image)
 
         temp_dir = "/home/zy/wjj/Prompt_sam_localization/"
-        masks_save_path = os.path.join(temp_dir, "masksfenlei")
-        # visualize_and_save_with_cv2(binary_image, masks_save_path)
-        maskss = binary_image.unsqueeze(1)
+        masks_save_path = os.path.join(temp_dir, "masksfenlei0204")
+        visualize_and_save_with_cv2(colored_image, masks_save_path)
+        # maskss = binary_image.unsqueeze(1)
         return maskss, iou_pred
 # 定义一个全卷积网络用于像素分类
+
+import torch.nn as nn
+
 class PixelClassifier(nn.Module):
-    def __init__(self, in_channels, num_classes=3):
+    def __init__(self, in_channels, num_classes=3, feature_dim=128):
         super(PixelClassifier, self).__init__()
         self.conv1 = nn.Conv2d(in_channels, 16, kernel_size=3, padding=1)
         self.relu = nn.ReLU()
-        self.conv2 = nn.Conv2d(16, 32, kernel_size=3, padding=1)
-        self.conv3 = nn.Conv2d(32, num_classes, kernel_size=1)  # 输出通道数为类别数
+        self.conv2 = nn.Conv2d(16, 8, kernel_size=3, padding=1)
+        self.conv3 = nn.Conv2d(8, num_classes, kernel_size=1)  # 输出通道数为类别数
 
-    class PixelClassifier(nn.Module):
-        def __init__(self, in_channels, num_classes=3, feature_dim=128):
-            super(PixelClassifier, self).__init__()
-            self.conv1 = nn.Conv2d(in_channels, 16, kernel_size=3, padding=1)
-            self.relu = nn.ReLU()
-            self.conv2 = nn.Conv2d(16, 32, kernel_size=3, padding=1)
-            self.conv3 = nn.Conv2d(32, num_classes, kernel_size=1)  # 输出通道数为类别数
-            self.num_classes = num_classes
-            self.feature_dim = feature_dim  # 假设每个类别的中心向量的维度
+        self.num_classes = num_classes
+        self.feature_dim = feature_dim  # 类别特征向量的维度
+        self.centroids = nn.Parameter(torch.randn(num_classes, feature_dim))# 类别中心向量
+        self.centroids.requires_grad=True
 
-            # 假设类别的特征向量是随机初始化的
-            self.centroids = nn.Parameter(torch.randn(num_classes, self.feature_dim))  # 类别的中心向量，随机初始化
+    def forward(self, x):
+        x = self.conv1(x)
+        x = self.relu(x)
+        x = self.conv2(x)
+        x = self.relu(x)
+        x = self.conv3(x)  # shape: (B, num_classes, H, W)
+        return x
 
-        def forward(self, x):
-            x = self.conv1(x)
-            x = self.relu(x)
-            x = self.conv2(x)
-            x = self.relu(x)
-            x = self.conv3(x)  # shape: (B, num_classes, H, W)
-            return x
+    def predict(self, x):
+        with torch.no_grad():
+            # 获取每个像素的类别预测 (logits) 和预测的类别标签
+            logits = self.forward(x)  # shape: (B, num_classes, H, W)
+            probabilities = torch.softmax(logits, dim=1)  # 对每个像素的类别输出应用 softmax 激活
+            predicted_classes = torch.argmax(probabilities, dim=1)
+            # predicted_classes = torch.argmax(logits, dim=1)  # shape: (B, H, W)
 
-        def predict(self, x):
-            # 获取每个像素的类别预测
-            with torch.no_grad():
-                logits = self.forward(x)  # shape: (B, num_classes, H, W)
-                predicted_classes = torch.argmax(logits, dim=1)  # shape: (B, H, W)
+            # 获取类别中心向量
+            batch_size, height, width = predicted_classes.shape  # 形状 (B, H, W)
 
-                # 计算每个像素类别的平均特征向量
-                # 根据预测的类别索引从 centroid 中获取对应的类别平均向量
-                batch_size, _, height, width = logits.shape
-                centroids_expanded = self.centroids[predicted_classes]  # (B, H, W, feature_dim)
+            # 获取每个类别的中心向量，不是每个像素点的类别中心
+            category_embeddings = self.centroids  # shape: (num_classes, feature_dim)
 
-                # 通过扩展维度，确保返回的 centroids 是 (B, C, H, W)
-                centroids_expanded = centroids_expanded.permute(0, 3, 1, 2)  # shape: (B, feature_dim, H, W)
-
-            return predicted_classes, centroids_expanded
-
-
-
+        return predicted_classes, category_embeddings
 
 def cosine_similarity(a, b):
             return F.cosine_similarity(a, b)
@@ -266,7 +250,7 @@ import numpy as np
 def visualize_and_save_with_cv2(mask: torch.Tensor, save_path: str):
     try:
      # Move the tensor to CPU and convert it to NumPy
-     mask = mask.detach().cpu().numpy()  # Remove batch dimension and move to CPU
+     mask = mask.clone().cpu().numpy()  # Remove batch dimension and move to CPU
 
      # Get batch size from the mask
      batch_size = mask.shape[0]
@@ -322,8 +306,11 @@ def cluster_image(feature_map, n_clusters=3):
     B, C, H, W = feature_map.shape
 
     # 将特征图展平为 (B * H * W, C)，每行是一个像素点的特征（C维）
-    feature_map_flat = feature_map.view(B, C, -1).permute(0, 2, 1).contiguous()
-    feature_map_flat = feature_map_flat.view(-1, C)  # 现在形状为 (B * H * W, C)
+    try:
+        feature_map_flat = feature_map.view(B, C, -1).permute(0, 2, 1).contiguous()
+        feature_map_flat = feature_map_flat.view(-1, C)  # 现在形状为 (B * H * W, C)
+    except Exception as e:
+        print(e)
 
     # 对特征图进行 K-means 聚类
     kmeans = KMeans(n_clusters=n_clusters, random_state=42)
@@ -352,13 +339,9 @@ def generate_colored_image(labels, n_classes=3):
         # 定义n_classes种颜色（这里以3类为例）
         # 定义5种颜色（这里以5类为例）
         color_map = np.array([[1, 0, 0],  # 类1: 红色
-                              [0, 1, 0],  # 类2: 绿色
-                              [0, 0, 1],  # 类3: 蓝色
-                              [1, 1, 0],  # 类4: 黄色
-                              [1, 0, 1],  # 类5: 品红
-                              [0, 1, 1],  # 类6: 青色
-                              [1, 0.5, 0],  # 类7: 橙色
-                              [0.5, 0, 0.5]])  # 类8: 紫色
+                              [0, 1, 0],
+                              [0, 0, 1]]  # 类3: 蓝色
+                             )  # 类8: 紫色
         # 创建一个空的RGB图像，形状为 (B, 3, H, W)
         colored_image = np.zeros((B, 3, H, W), dtype=np.uint8)
 
@@ -373,7 +356,7 @@ def generate_colored_image(labels, n_classes=3):
                 colored_image[b, 2, :, :] = np.where(mask, color_map[c][2] * 255, colored_image[b, 2, :, :])  # 蓝色通道
 
         # 确保返回的是 PyTorch 张量
-        return torch.tensor(colored_image, dtype=torch.uint8).contiguous().detach()
+        return torch.tensor(colored_image, dtype=torch.uint8).contiguous().clone()
 
     except Exception as e:
         # 捕获并输出错误信息
@@ -404,7 +387,7 @@ def convert_to_grayscale(colored_image):
 
     # 调整 colored_image 的形状到 (B, H, W, 3)，然后计算灰度
     gray_image = torch.tensordot(colored_image.permute(0, 2, 3, 1), weights, dims=([-1], [0]))
-    print("Gray Image Shape:", gray_image.shape)
+    # print("Gray Image Shape:", gray_image.shape)
     return gray_image
 
 # Lightly adapted from

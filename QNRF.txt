@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/home/zy/wjj/Prompt_sam_localization/notebooks/0404_adapter.py", line 4, in <module>
+    from dataset import TrainDataset, TestDataset, ValDataset
+  File "/home/zy/wjj/Prompt_sam_localization/notebooks/dataset.py", line 17, in <module>
+    from utils.get_gt_point import PointExtractor
+ModuleNotFoundError: No module named 'utils.get_gt_point'; 'utils' is not a package

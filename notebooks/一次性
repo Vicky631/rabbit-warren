@@ -1,0 +1,2 @@
+-data_path ./dataset/SHHA_up -data_name SHHA -exp_name wjj_vt -save_path ./model_checkpoint/wjj -mode train -sam_ckpt /home/zy/wjj/Prompt_sam_localization/checkpoint/sam_vit_h_4b8939.pth
+-net sam_adapter -mod sam_adpt -exp_name train_encoder_last_10028_5 -sam_ckpt ./checkpoint/sam_vit_h_4b8939.pth -b 1 -dataset CryoPPP -data_path ./dataset/10028/5 -image_encoder_configuration 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3

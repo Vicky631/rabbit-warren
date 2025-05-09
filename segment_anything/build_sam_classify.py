@@ -4,7 +4,7 @@ import torch
 from functools import partial
 
 from segment_anything.modeling.image_encoder import ImageEncoderViT
-from segment_anything.modeling.mask_decoder_classify import  MaskDecoder
+from segment_anything.modeling.mask_decoder_cl import  MaskDecoder
 from segment_anything.modeling.prompt_encoder import  PromptEncoder
 from segment_anything.modeling.sam import Sam
 from segment_anything.modeling.transformer import TwoWayTransformer

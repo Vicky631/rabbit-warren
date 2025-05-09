@@ -125,8 +125,8 @@ class Model(nn.Module):
                 value.requires_grad = False
 
     def forward(self, x, points,text=None):
-        # denoised_img = self.unet(x)
-        denoised_img = self.gdfn(x)
+        denoised_img = self.unet(x)
+        # denoised_img = self.gdfn(x)
         # denoised_img = x
         img_add = x + denoised_img
         img_add = torch.clamp(img_add, 0, 255)

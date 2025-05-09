@@ -1,0 +1,735 @@
+ saved to: output_no_unet/0301_kpoint.jpg
+Scatter plot saved to: output_no_unet/0301_gt.jpg
+Total number of points: 172
+f1: 0 precision: 0.0 recall: 0.0
+ saved to: output_no_unet/0302_kpoint.jpg
+Scatter plot saved to: output_no_unet/0302_gt.jpg
+Total number of points: 1111
+f1: 0.007155635062611807 precision: 0.5714285714285714 recall: 0.0036003600360036
+ saved to: output_no_unet/0303_kpoint.jpg
+Scatter plot saved to: output_no_unet/0303_gt.jpg
+Total number of points: 302
+f1: 0.04790419161676646 precision: 0.25 recall: 0.026490066225165563
+ saved to: output_no_unet/0304_kpoint.jpg
+Scatter plot saved to: output_no_unet/0304_gt.jpg
+Total number of points: 170
+f1: 0.07142857142857142 precision: 0.2692307692307692 recall: 0.041176470588235294
+ saved to: output_no_unet/0305_kpoint.jpg
+Scatter plot saved to: output_no_unet/0305_gt.jpg
+Total number of points: 819
+f1: 0.11345939933259178 precision: 0.6375 recall: 0.06227106227106227
+ saved to: output_no_unet/0306_kpoint.jpg
+Scatter plot saved to: output_no_unet/0306_gt.jpg
+Total number of points: 361
+f1: 0.07407407407407407 precision: 0.8235294117647058 recall: 0.038781163434903045
+ saved to: output_no_unet/0307_kpoint.jpg
+Scatter plot saved to: output_no_unet/0307_gt.jpg
+Total number of points: 568
+f1: 0.056105610561056105 precision: 0.4473684210526316 recall: 0.02992957746478873
+ saved to: output_no_unet/0308_kpoint.jpg
+Scatter plot saved to: output_no_unet/0308_gt.jpg
+Total number of points: 1326
+f1: 0.0014847809948032667 precision: 0.047619047619047616 recall: 0.0007541478129713424
+ saved to: output_no_unet/0309_kpoint.jpg
+Scatter plot saved to: output_no_unet/0309_gt.jpg
+Total number of points: 371
+f1: 0.24669603524229075 precision: 0.6746987951807228 recall: 0.1509433962264151
+ saved to: output_no_unet/0310_kpoint.jpg
+Scatter plot saved to: output_no_unet/0310_gt.jpg
+Total number of points: 502
+f1: 0.13644524236983843 precision: 0.6909090909090909 recall: 0.07569721115537849
+ saved to: output_no_unet/0311_kpoint.jpg
+Scatter plot saved to: output_no_unet/0311_gt.jpg
+Total number of points: 1068
+f1: 0.05405405405405406 precision: 0.7142857142857143 recall: 0.028089887640449437
+ saved to: output_no_unet/0312_kpoint.jpg
+Scatter plot saved to: output_no_unet/0312_gt.jpg
+Total number of points: 321
+f1: 0.05208333333333333 precision: 0.15873015873015872 recall: 0.03115264797507788
+ saved to: output_no_unet/0313_kpoint.jpg
+Scatter plot saved to: output_no_unet/0313_gt.jpg
+Total number of points: 584
+f1: 0 precision: 0.0 recall: 0.0
+ saved to: output_no_unet/0314_kpoint.jpg
+Scatter plot saved to: output_no_unet/0314_gt.jpg
+Total number of points: 762
+f1: 0.010416666666666666 precision: 0.6666666666666666 recall: 0.005249343832020997
+ saved to: output_no_unet/0315_kpoint.jpg
+Scatter plot saved to: output_no_unet/0315_gt.jpg
+Total number of points: 341
+f1: 0.13367609254498714 precision: 0.5416666666666666 recall: 0.07624633431085044
+ saved to: output_no_unet/0316_kpoint.jpg
+Scatter plot saved to: output_no_unet/0316_gt.jpg
+Total number of points: 417
+f1: 0.28413284132841327 precision: 0.616 recall: 0.18465227817745802
+ saved to: output_no_unet/0317_kpoint.jpg
+Scatter plot saved to: output_no_unet/0317_gt.jpg
+Total number of points: 1157
+f1: 0.010318142734307824 precision: 1.0 recall: 0.005185825410544511
+ saved to: output_no_unet/0318_kpoint.jpg
+Scatter plot saved to: output_no_unet/0318_gt.jpg
+Total number of points: 227
+f1: 0.007326007326007327 precision: 0.021739130434782608 recall: 0.004405286343612335
+ saved to: output_no_unet/0319_kpoint.jpg
+Scatter plot saved to: output_no_unet/0319_gt.jpg
+Total number of points: 230
+f1: 0 precision: 0.0 recall: 0.0
+ saved to: output_no_unet/0320_kpoint.jpg
+Scatter plot saved to: output_no_unet/0320_gt.jpg
+Total number of points: 460
+f1: 0 precision: 0.0 recall: 0.0
+ saved to: output_no_unet/0321_kpoint.jpg
+Scatter plot saved to: output_no_unet/0321_gt.jpg
+Total number of points: 717
+f1: 0 precision: 0.0 recall: 0.0
+ saved to: output_no_unet/0322_kpoint.jpg
+Scatter plot saved to: output_no_unet/0322_gt.jpg
+Total number of points: 212
+f1: 0 precision: 0.0 recall: 0.0
+ saved to: output_no_unet/0323_kpoint.jpg
+Scatter plot saved to: output_no_unet/0323_gt.jpg
+Total number of points: 429
+f1: 0 precision: 0.0 recall: 0.0
+ saved to: output_no_unet/0324_kpoint.jpg
+Scatter plot saved to: output_no_unet/0324_gt.jpg
+Total number of points: 553
+f1: 0.014209591474245114 precision: 0.4 recall: 0.007233273056057866
+ saved to: output_no_unet/0325_kpoint.jpg
+Scatter plot saved to: output_no_unet/0325_gt.jpg
+Total number of points: 243
+f1: 0.03496503496503497 precision: 0.11627906976744186 recall: 0.0205761316872428
+ saved to: output_no_unet/0326_kpoint.jpg
+Scatter plot saved to: output_no_unet/0326_gt.jpg
+Total number of points: 499
+f1: 0.031007751937984492 precision: 0.47058823529411764 recall: 0.01603206412825651
+ saved to: output_no_unet/0327_kpoint.jpg
+Scatter plot saved to: output_no_unet/0327_gt.jpg
+Total number of points: 760
+f1: 0.015584415584415586 precision: 0.6 recall: 0.007894736842105263
+ saved to: output_no_unet/0328_kpoint.jpg
+Scatter plot saved to: output_no_unet/0328_gt.jpg
+Total number of points: 423
+f1: 0.017204301075268817 precision: 0.09523809523809523 recall: 0.009456264775413711
+ saved to: output_no_unet/0329_kpoint.jpg
+Scatter plot saved to: output_no_unet/0329_gt.jpg
+Total number of points: 309
+f1: 0.011661807580174927 precision: 0.058823529411764705 recall: 0.006472491909385114
+ saved to: output_no_unet/0330_kpoint.jpg
+Scatter plot saved to: output_no_unet/0330_gt.jpg
+Total number of points: 307
+f1: 0.14130434782608695 precision: 0.4262295081967213 recall: 0.08469055374592833
+ saved to: output_no_unet/0331_kpoint.jpg
+Scatter plot saved to: output_no_unet/0331_gt.jpg
+Total number of points: 250
+f1: 0.22875816993464054 precision: 0.625 recall: 0.14
+ saved to: output_no_unet/0332_kpoint.jpg
+Scatter plot saved to: output_no_unet/0332_gt.jpg
+Total number of points: 961
+f1: 0.06521739130434784 precision: 0.6470588235294118 recall: 0.03433922996878252
+ saved to: output_no_unet/0333_kpoint.jpg
+Scatter plot saved to: output_no_unet/0333_gt.jpg
+Total number of points: 475
+f1: 0.004123711340206186 precision: 0.1 recall: 0.002105263157894737
+ saved to: output_no_unet/0334_kpoint.jpg
+Scatter plot saved to: output_no_unet/0334_gt.jpg
+Total number of points: 89
+f1: 0.09836065573770492 precision: 0.18181818181818182 recall: 0.06741573033707865
+ saved to: output_no_unet/0335_kpoint.jpg
+Scatter plot saved to: output_no_unet/0335_gt.jpg
+Total number of points: 567
+f1: 0.03045685279187817 precision: 0.375 recall: 0.015873015873015872
+ saved to: output_no_unet/0336_kpoint.jpg
+Scatter plot saved to: output_no_unet/0336_gt.jpg
+Total number of points: 1267
+f1: 0 precision: 0.0 recall: 0.0
+ saved to: output_no_unet/0337_kpoint.jpg
+Scatter plot saved to: output_no_unet/0337_gt.jpg
+Total number of points: 195
+f1: 0.019138755980861247 precision: 0.14285714285714285 recall: 0.010256410256410256
+ saved to: output_no_unet/0338_kpoint.jpg
+Scatter plot saved to: output_no_unet/0338_gt.jpg
+Total number of points: 717
+f1: 0.0326975476839237 precision: 0.7058823529411765 recall: 0.016736401673640166
+ saved to: output_no_unet/0339_kpoint.jpg
+Scatter plot saved to: output_no_unet/0339_gt.jpg
+Total number of points: 196
+f1: 0.2329317269076305 precision: 0.5471698113207547 recall: 0.14795918367346939
+ saved to: output_no_unet/0340_kpoint.jpg
+Scatter plot saved to: output_no_unet/0340_gt.jpg
+Total number of points: 236
+f1: 0.029850746268656716 precision: 0.125 recall: 0.01694915254237288
+ saved to: output_no_unet/0341_kpoint.jpg
+Scatter plot saved to: output_no_unet/0341_gt.jpg
+Total number of points: 250
+f1: 0.015267175572519083 precision: 0.16666666666666666 recall: 0.008
+ saved to: output_no_unet/0342_kpoint.jpg
+Scatter plot saved to: output_no_unet/0342_gt.jpg
+Total number of points: 802
+f1: 0.0529482551143201 precision: 0.7586206896551724 recall: 0.02743142144638404
+ saved to: output_no_unet/0343_kpoint.jpg
+Scatter plot saved to: output_no_unet/0343_gt.jpg
+Total number of points: 118
+f1: 0.015384615384615384 precision: 0.08333333333333333 recall: 0.00847457627118644
+ saved to: output_no_unet/0344_kpoint.jpg
+Scatter plot saved to: output_no_unet/0344_gt.jpg
+Total number of points: 366
+f1: 0.08436724565756824 precision: 0.4594594594594595 recall: 0.04644808743169399
+ saved to: output_no_unet/0345_kpoint.jpg
+Scatter plot saved to: output_no_unet/0345_gt.jpg
+Total number of points: 139
+f1: 0 precision: 0.0 recall: 0.0
+ saved to: output_no_unet/0346_kpoint.jpg
+Scatter plot saved to: output_no_unet/0346_gt.jpg
+Total number of points: 382
+f1: 0 precision: 0.0 recall: 0.0
+ saved to: output_no_unet/0347_kpoint.jpg
+Scatter plot saved to: output_no_unet/0347_gt.jpg
+Total number of points: 316
+f1: 0.024922118380062305 precision: 0.8 recall: 0.012658227848101266
+ saved to: output_no_unet/0348_kpoint.jpg
+Scatter plot saved to: output_no_unet/0348_gt.jpg
+Total number of points: 384
+f1: 0.05499999999999999 precision: 0.6875 recall: 0.028645833333333332
+ saved to: output_no_unet/0349_kpoint.jpg
+Scatter plot saved to: output_no_unet/0349_gt.jpg
+Total number of points: 514
+f1: 0.10801393728222997 precision: 0.5166666666666667 recall: 0.06031128404669261
+ saved to: output_no_unet/0350_kpoint.jpg
+Scatter plot saved to: output_no_unet/0350_gt.jpg
+Total number of points: 1006
+f1: 0.01953125 precision: 0.5555555555555556 recall: 0.009940357852882704
+ saved to: output_no_unet/0351_kpoint.jpg
+Scatter plot saved to: output_no_unet/0351_gt.jpg
+Total number of points: 297
+f1: 0.12103746397694523 precision: 0.42 recall: 0.0707070707070707
+ saved to: output_no_unet/0352_kpoint.jpg
+Scatter plot saved to: output_no_unet/0352_gt.jpg
+Total number of points: 135
+f1: 0.04878048780487806 precision: 0.13793103448275862 recall: 0.02962962962962963
+ saved to: output_no_unet/0353_kpoint.jpg
+Scatter plot saved to: output_no_unet/0353_gt.jpg
+Total number of points: 176
+f1: 0.03076923076923077 precision: 0.15789473684210525 recall: 0.017045454545454544
+ saved to: output_no_unet/0354_kpoint.jpg
+Scatter plot saved to: output_no_unet/0354_gt.jpg
+Total number of points: 529
+f1: 0.00746268656716418 precision: 0.2857142857142857 recall: 0.003780718336483932
+ saved to: output_no_unet/0355_kpoint.jpg
+Scatter plot saved to: output_no_unet/0355_gt.jpg
+Total number of points: 149
+f1: 0.1319796954314721 precision: 0.2708333333333333 recall: 0.087248322147651
+ saved to: output_no_unet/0356_kpoint.jpg
+Scatter plot saved to: output_no_unet/0356_gt.jpg
+Total number of points: 349
+f1: 0 precision: 0.0 recall: 0.0
+ saved to: output_no_unet/0357_kpoint.jpg
+Scatter plot saved to: output_no_unet/0357_gt.jpg
+Total number of points: 356
+f1: 0.01550387596899225 precision: 0.0967741935483871 recall: 0.008426966292134831
+ saved to: output_no_unet/0358_kpoint.jpg
+Scatter plot saved to: output_no_unet/0358_gt.jpg
+Total number of points: 198
+f1: 0.2710843373493976 precision: 0.3358208955223881 recall: 0.22727272727272727
+ saved to: output_no_unet/0359_kpoint.jpg
+Scatter plot saved to: output_no_unet/0359_gt.jpg
+Total number of points: 468
+f1: 0.025157232704402517 precision: 0.6666666666666666 recall: 0.01282051282051282
+ saved to: output_no_unet/0360_kpoint.jpg
+Scatter plot saved to: output_no_unet/0360_gt.jpg
+Total number of points: 293
+f1: 0.03692307692307692 precision: 0.1875 recall: 0.020477815699658702
+ saved to: output_no_unet/0361_kpoint.jpg
+Scatter plot saved to: output_no_unet/0361_gt.jpg
+Total number of points: 193
+f1: 0.0751173708920188 precision: 0.4 recall: 0.04145077720207254
+ saved to: output_no_unet/0362_kpoint.jpg
+Scatter plot saved to: output_no_unet/0362_gt.jpg
+Total number of points: 337
+f1: 0.11140583554376657 precision: 0.525 recall: 0.06231454005934718
+ saved to: output_no_unet/0363_kpoint.jpg
+Scatter plot saved to: output_no_unet/0363_gt.jpg
+Total number of points: 1121
+f1: 0.02777777777777778 precision: 0.5161290322580645 recall: 0.014272970561998216
+ saved to: output_no_unet/0364_kpoint.jpg
+Scatter plot saved to: output_no_unet/0364_gt.jpg
+Total number of points: 289
+f1: 0.006666666666666667 precision: 0.09090909090909091 recall: 0.0034602076124567475
+ saved to: output_no_unet/0365_kpoint.jpg
+Scatter plot saved to: output_no_unet/0365_gt.jpg
+Total number of points: 215
+f1: 0.07662835249042145 precision: 0.21739130434782608 recall: 0.046511627906976744
+ saved to: output_no_unet/0366_kpoint.jpg
+Scatter plot saved to: output_no_unet/0366_gt.jpg
+Total number of points: 823
+f1: 0.09029345372460497 precision: 0.6349206349206349 recall: 0.04860267314702309
+ saved to: output_no_unet/0367_kpoint.jpg
+Scatter plot saved to: output_no_unet/0367_gt.jpg
+Total number of points: 192
+f1: 0.24175824175824176 precision: 0.2558139534883721 recall: 0.22916666666666666
+ saved to: output_no_unet/0368_kpoint.jpg
+Scatter plot saved to: output_no_unet/0368_gt.jpg
+Total number of points: 212
+f1: 0.04329004329004329 precision: 0.2631578947368421 recall: 0.02358490566037736
+ saved to: output_no_unet/0369_kpoint.jpg
+Scatter plot saved to: output_no_unet/0369_gt.jpg
+Total number of points: 166
+f1: 0.14814814814814817 precision: 0.6086956521739131 recall: 0.08433734939759036
+ saved to: output_no_unet/0370_kpoint.jpg
+Scatter plot saved to: output_no_unet/0370_gt.jpg
+Total number of points: 412
+f1: 0.032786885245901634 precision: 0.4666666666666667 recall: 0.01699029126213592
+ saved to: output_no_unet/0371_kpoint.jpg
+Scatter plot saved to: output_no_unet/0371_gt.jpg
+Total number of points: 602
+f1: 0 precision: 0.0 recall: 0.0
+ saved to: output_no_unet/0372_kpoint.jpg
+Scatter plot saved to: output_no_unet/0372_gt.jpg
+Total number of points: 589
+f1: 0.03940886699507389 precision: 0.6 recall: 0.02037351443123939
+ saved to: output_no_unet/0373_kpoint.jpg
+Scatter plot saved to: output_no_unet/0373_gt.jpg
+Total number of points: 153
+f1: 0.02185792349726776 precision: 0.06666666666666667 recall: 0.013071895424836602
+ saved to: output_no_unet/0374_kpoint.jpg
+Scatter plot saved to: output_no_unet/0374_gt.jpg
+Total number of points: 865
+f1: 0.05351170568561873 precision: 0.75 recall: 0.027745664739884393
+ saved to: output_no_unet/0375_kpoint.jpg
+Scatter plot saved to: output_no_unet/0375_gt.jpg
+Total number of points: 666
+f1: 0.020086083213773313 precision: 0.22580645161290322 recall: 0.010510510510510511
+ saved to: output_no_unet/0376_kpoint.jpg
+Scatter plot saved to: output_no_unet/0376_gt.jpg
+Total number of points: 485
+f1: 0.012195121951219513 precision: 0.42857142857142855 recall: 0.006185567010309278
+ saved to: output_no_unet/0377_kpoint.jpg
+Scatter plot saved to: output_no_unet/0377_gt.jpg
+Total number of points: 207
+f1: 0.058577405857740586 precision: 0.21875 recall: 0.033816425120772944
+ saved to: output_no_unet/0378_kpoint.jpg
+Scatter plot saved to: output_no_unet/0378_gt.jpg
+Total number of points: 271
+f1: 0.11960132890365449 precision: 0.6 recall: 0.06642066420664207
+ saved to: output_no_unet/0379_kpoint.jpg
+Scatter plot saved to: output_no_unet/0379_gt.jpg
+Total number of points: 186
+f1: 0.08910891089108912 precision: 0.5625 recall: 0.04838709677419355
+ saved to: output_no_unet/0380_kpoint.jpg
+Scatter plot saved to: output_no_unet/0380_gt.jpg
+Total number of points: 157
+f1: 0 precision: 0.0 recall: 0.0
+ saved to: output_no_unet/0381_kpoint.jpg
+Scatter plot saved to: output_no_unet/0381_gt.jpg
+Total number of points: 356
+f1: 0.02185792349726776 precision: 0.4 recall: 0.011235955056179775
+ saved to: output_no_unet/0382_kpoint.jpg
+Scatter plot saved to: output_no_unet/0382_gt.jpg
+Total number of points: 217
+f1: 0 precision: 0.0 recall: 0.0
+ saved to: output_no_unet/0383_kpoint.jpg
+Scatter plot saved to: output_no_unet/0383_gt.jpg
+Total number of points: 218
+f1: 0.1673003802281369 precision: 0.4888888888888889 recall: 0.10091743119266056
+ saved to: output_no_unet/0384_kpoint.jpg
+Scatter plot saved to: output_no_unet/0384_gt.jpg
+Total number of points: 122
+f1: 0.1616161616161616 precision: 0.21052631578947367 recall: 0.13114754098360656
+ saved to: output_no_unet/0385_kpoint.jpg
+Scatter plot saved to: output_no_unet/0385_gt.jpg
+Total number of points: 97
+f1: 0.05555555555555555 precision: 0.2727272727272727 recall: 0.030927835051546393
+ saved to: output_no_unet/0386_kpoint.jpg
+Scatter plot saved to: output_no_unet/0386_gt.jpg
+Total number of points: 579
+f1: 0.07213114754098361 precision: 0.7096774193548387 recall: 0.037996545768566495
+ saved to: output_no_unet/0387_kpoint.jpg
+Scatter plot saved to: output_no_unet/0387_gt.jpg
+Total number of points: 417
+f1: 0.05652173913043478 precision: 0.3023255813953488 recall: 0.03117505995203837
+ saved to: output_no_unet/0388_kpoint.jpg
+Scatter plot saved to: output_no_unet/0388_gt.jpg
+Total number of points: 86
+f1: 0 precision: 0.0 recall: 0.0
+ saved to: output_no_unet/0389_kpoint.jpg
+Scatter plot saved to: output_no_unet/0389_gt.jpg
+Total number of points: 383
+f1: 0.05940594059405939 precision: 0.5714285714285714 recall: 0.031331592689295036
+ saved to: output_no_unet/0390_kpoint.jpg
+Scatter plot saved to: output_no_unet/0390_gt.jpg
+Total number of points: 2256
+f1: 0.004422821760283061 precision: 1.0 recall: 0.002216312056737589
+ saved to: output_no_unet/0391_kpoint.jpg
+Scatter plot saved to: output_no_unet/0391_gt.jpg
+Total number of points: 101
+f1: 0.13986013986013984 precision: 0.23809523809523808 recall: 0.09900990099009901
+ saved to: output_no_unet/0392_kpoint.jpg
+Scatter plot saved to: output_no_unet/0392_gt.jpg
+Total number of points: 1366
+f1: 0.010196649672250547 precision: 1.0 recall: 0.005124450951683748
+ saved to: output_no_unet/0393_kpoint.jpg
+Scatter plot saved to: output_no_unet/0393_gt.jpg
+Total number of points: 255
+f1: 0.07719298245614035 precision: 0.36666666666666664 recall: 0.043137254901960784
+ saved to: output_no_unet/0394_kpoint.jpg
+Scatter plot saved to: output_no_unet/0394_gt.jpg
+Total number of points: 69
+f1: 0.023255813953488375 precision: 0.058823529411764705 recall: 0.014492753623188406
+ saved to: output_no_unet/0395_kpoint.jpg
+Scatter plot saved to: output_no_unet/0395_gt.jpg
+Total number of points: 190
+f1: 0.1732283464566929 precision: 0.34375 recall: 0.11578947368421053
+ saved to: output_no_unet/0396_kpoint.jpg
+Scatter plot saved to: output_no_unet/0396_gt.jpg
+Total number of points: 246
+f1: 0.09022556390977443 precision: 0.6 recall: 0.04878048780487805
+ saved to: output_no_unet/0397_kpoint.jpg
+Scatter plot saved to: output_no_unet/0397_gt.jpg
+Total number of points: 522
+f1: 0.033644859813084106 precision: 0.6923076923076923 recall: 0.017241379310344827
+ saved to: output_no_unet/0398_kpoint.jpg
+Scatter plot saved to: output_no_unet/0398_gt.jpg
+Total number of points: 153
+f1: 0.11363636363636363 precision: 0.43478260869565216 recall: 0.06535947712418301
+ saved to: output_no_unet/0399_kpoint.jpg
+Scatter plot saved to: output_no_unet/0399_gt.jpg
+Total number of points: 242
+f1: 0.022556390977443608 precision: 0.125 recall: 0.012396694214876033
+ saved to: output_no_unet/0400_kpoint.jpg
+Scatter plot saved to: output_no_unet/0400_gt.jpg
+Total number of points: 391
+f1: 0.005102040816326531 precision: 1.0 recall: 0.0025575447570332483
+ saved to: output_no_unet/0401_kpoint.jpg
+Scatter plot saved to: output_no_unet/0401_gt.jpg
+Total number of points: 211
+f1: 0.026666666666666665 precision: 0.21428571428571427 recall: 0.014218009478672985
+ saved to: output_no_unet/0402_kpoint.jpg
+Scatter plot saved to: output_no_unet/0402_gt.jpg
+Total number of points: 223
+f1: 0.09876543209876544 precision: 0.6 recall: 0.053811659192825115
+ saved to: output_no_unet/0403_kpoint.jpg
+Scatter plot saved to: output_no_unet/0403_gt.jpg
+Total number of points: 431
+f1: 0 precision: 0.0 recall: 0.0
+ saved to: output_no_unet/0404_kpoint.jpg
+Scatter plot saved to: output_no_unet/0404_gt.jpg
+Total number of points: 1175
+f1: 0.006785411365564037 precision: 1.0 recall: 0.003404255319148936
+ saved to: output_no_unet/0405_kpoint.jpg
+Scatter plot saved to: output_no_unet/0405_gt.jpg
+Total number of points: 265
+f1: 0.1038961038961039 precision: 0.37209302325581395 recall: 0.06037735849056604
+ saved to: output_no_unet/0406_kpoint.jpg
+Scatter plot saved to: output_no_unet/0406_gt.jpg
+Total number of points: 1232
+f1: 0 precision: 0.0 recall: 0.0
+ saved to: output_no_unet/0407_kpoint.jpg
+Scatter plot saved to: output_no_unet/0407_gt.jpg
+Total number of points: 294
+f1: 0.08746355685131196 precision: 0.30612244897959184 recall: 0.05102040816326531
+ saved to: output_no_unet/0408_kpoint.jpg
+Scatter plot saved to: output_no_unet/0408_gt.jpg
+Total number of points: 182
+f1: 0.15384615384615385 precision: 0.4358974358974359 recall: 0.09340659340659341
+ saved to: output_no_unet/0409_kpoint.jpg
+Scatter plot saved to: output_no_unet/0409_gt.jpg
+Total number of points: 381
+f1: 0.21141649048625794 precision: 0.5434782608695652 recall: 0.13123359580052493
+ saved to: output_no_unet/0410_kpoint.jpg
+Scatter plot saved to: output_no_unet/0410_gt.jpg
+Total number of points: 1023
+f1: 0.015325670498084292 precision: 0.38095238095238093 recall: 0.007820136852394917
+ saved to: output_no_unet/0411_kpoint.jpg
+Scatter plot saved to: output_no_unet/0411_gt.jpg
+Total number of points: 452
+f1: 0.09109730848861285 precision: 0.7096774193548387 recall: 0.048672566371681415
+ saved to: output_no_unet/0412_kpoint.jpg
+Scatter plot saved to: output_no_unet/0412_gt.jpg
+Total number of points: 256
+f1: 0.021897810218978103 precision: 0.16666666666666666 recall: 0.01171875
+ saved to: output_no_unet/0413_kpoint.jpg
+Scatter plot saved to: output_no_unet/0413_gt.jpg
+Total number of points: 66
+f1: 0.018018018018018018 precision: 0.022222222222222223 recall: 0.015151515151515152
+ saved to: output_no_unet/0414_kpoint.jpg
+Scatter plot saved to: output_no_unet/0414_gt.jpg
+Total number of points: 141
+f1: 0.011049723756906077 precision: 0.025 recall: 0.0070921985815602835
+ saved to: output_no_unet/0415_kpoint.jpg
+Scatter plot saved to: output_no_unet/0415_gt.jpg
+Total number of points: 1195
+f1: 0.009991673605328892 precision: 1.0 recall: 0.00502092050209205
+ saved to: output_no_unet/0416_kpoint.jpg
+Scatter plot saved to: output_no_unet/0416_gt.jpg
+Total number of points: 289
+f1: 0.006802721088435375 precision: 0.2 recall: 0.0034602076124567475
+ saved to: output_no_unet/0417_kpoint.jpg
+Scatter plot saved to: output_no_unet/0417_gt.jpg
+Total number of points: 1603
+f1: 0.0037359900373599006 precision: 1.0 recall: 0.0018714909544603868
+ saved to: output_no_unet/0418_kpoint.jpg
+Scatter plot saved to: output_no_unet/0418_gt.jpg
+Total number of points: 241
+f1: 0.0390625 precision: 0.3333333333333333 recall: 0.02074688796680498
+ saved to: output_no_unet/0419_kpoint.jpg
+Scatter plot saved to: output_no_unet/0419_gt.jpg
+Total number of points: 251
+f1: 0.10714285714285714 precision: 0.5172413793103449 recall: 0.05976095617529881
+ saved to: output_no_unet/0420_kpoint.jpg
+Scatter plot saved to: output_no_unet/0420_gt.jpg
+Total number of points: 133
+f1: 0.17297297297297295 precision: 0.3076923076923077 recall: 0.12030075187969924
+ saved to: output_no_unet/0421_kpoint.jpg
+Scatter plot saved to: output_no_unet/0421_gt.jpg
+Total number of points: 1210
+f1: 0.00970873786407767 precision: 0.23076923076923078 recall: 0.0049586776859504135
+ saved to: output_no_unet/0422_kpoint.jpg
+Scatter plot saved to: output_no_unet/0422_gt.jpg
+Total number of points: 1153
+f1: 0 precision: 0.0 recall: 0.0
+ saved to: output_no_unet/0423_kpoint.jpg
+Scatter plot saved to: output_no_unet/0423_gt.jpg
+Total number of points: 115
+f1: 0.02877697841726619 precision: 0.08333333333333333 recall: 0.017391304347826087
+ saved to: output_no_unet/0424_kpoint.jpg
+Scatter plot saved to: output_no_unet/0424_gt.jpg
+Total number of points: 226
+f1: 0.1370716510903427 precision: 0.23157894736842105 recall: 0.09734513274336283
+ saved to: output_no_unet/0425_kpoint.jpg
+Scatter plot saved to: output_no_unet/0425_gt.jpg
+Total number of points: 269
+f1: 0.04316546762589928 precision: 0.6666666666666666 recall: 0.022304832713754646
+ saved to: output_no_unet/0426_kpoint.jpg
+Scatter plot saved to: output_no_unet/0426_gt.jpg
+Total number of points: 441
+f1: 0.10547667342799188 precision: 0.5 recall: 0.05895691609977324
+ saved to: output_no_unet/0427_kpoint.jpg
+Scatter plot saved to: output_no_unet/0427_gt.jpg
+Total number of points: 986
+f1: 0.00791295746785361 precision: 0.16 recall: 0.004056795131845842
+ saved to: output_no_unet/0428_kpoint.jpg
+Scatter plot saved to: output_no_unet/0428_gt.jpg
+Total number of points: 419
+f1: 0.004716981132075472 precision: 0.2 recall: 0.002386634844868735
+ saved to: output_no_unet/0429_kpoint.jpg
+Scatter plot saved to: output_no_unet/0429_gt.jpg
+Total number of points: 298
+f1: 0.09696969696969696 precision: 0.5 recall: 0.053691275167785234
+ saved to: output_no_unet/0430_kpoint.jpg
+Scatter plot saved to: output_no_unet/0430_gt.jpg
+Total number of points: 921
+f1: 0.040296924708377514 precision: 0.8636363636363636 recall: 0.02062975027144408
+ saved to: output_no_unet/0431_kpoint.jpg
+Scatter plot saved to: output_no_unet/0431_gt.jpg
+Total number of points: 605
+f1: 0.051529790660225436 precision: 1.0 recall: 0.026446280991735537
+ saved to: output_no_unet/0432_kpoint.jpg
+Scatter plot saved to: output_no_unet/0432_gt.jpg
+Total number of points: 375
+f1: 0 precision: 0.0 recall: 0.0
+ saved to: output_no_unet/0433_kpoint.jpg
+Scatter plot saved to: output_no_unet/0433_gt.jpg
+Total number of points: 137
+f1: 0.16363636363636366 precision: 0.21686746987951808 recall: 0.13138686131386862
+ saved to: output_no_unet/0434_kpoint.jpg
+Scatter plot saved to: output_no_unet/0434_gt.jpg
+Total number of points: 165
+f1: 0.180327868852459 precision: 0.27848101265822783 recall: 0.13333333333333333
+ saved to: output_no_unet/0435_kpoint.jpg
+Scatter plot saved to: output_no_unet/0435_gt.jpg
+Total number of points: 72
+f1: 0.06451612903225806 precision: 0.14285714285714285 recall: 0.041666666666666664
+ saved to: output_no_unet/0436_kpoint.jpg
+Scatter plot saved to: output_no_unet/0436_gt.jpg
+Total number of points: 102
+f1: 0.08 precision: 0.21739130434782608 recall: 0.049019607843137254
+ saved to: output_no_unet/0437_kpoint.jpg
+Scatter plot saved to: output_no_unet/0437_gt.jpg
+Total number of points: 491
+f1: 0.008097165991902834 precision: 0.6666666666666666 recall: 0.004073319755600814
+ saved to: output_no_unet/0438_kpoint.jpg
+Scatter plot saved to: output_no_unet/0438_gt.jpg
+Total number of points: 292
+f1: 0.00668896321070234 precision: 0.14285714285714285 recall: 0.003424657534246575
+ saved to: output_no_unet/0439_kpoint.jpg
+Scatter plot saved to: output_no_unet/0439_gt.jpg
+Total number of points: 355
+f1: 0 precision: 0.0 recall: 0.0
+ saved to: output_no_unet/0440_kpoint.jpg
+Scatter plot saved to: output_no_unet/0440_gt.jpg
+Total number of points: 93
+f1: 0.14492753623188404 precision: 0.2222222222222222 recall: 0.10752688172043011
+ saved to: output_no_unet/0441_kpoint.jpg
+Scatter plot saved to: output_no_unet/0441_gt.jpg
+Total number of points: 475
+f1: 0.00411522633744856 precision: 0.09090909090909091 recall: 0.002105263157894737
+ saved to: output_no_unet/0442_kpoint.jpg
+Scatter plot saved to: output_no_unet/0442_gt.jpg
+Total number of points: 214
+f1: 0.06779661016949151 precision: 0.36363636363636365 recall: 0.037383177570093455
+ saved to: output_no_unet/0443_kpoint.jpg
+Scatter plot saved to: output_no_unet/0443_gt.jpg
+Total number of points: 357
+f1: 0.03804347826086956 precision: 0.6363636363636364 recall: 0.0196078431372549
+ saved to: output_no_unet/0444_kpoint.jpg
+Scatter plot saved to: output_no_unet/0444_gt.jpg
+Total number of points: 264
+f1: 0.00749063670411985 precision: 0.3333333333333333 recall: 0.003787878787878788
+ saved to: output_no_unet/0445_kpoint.jpg
+Scatter plot saved to: output_no_unet/0445_gt.jpg
+Total number of points: 261
+f1: 0.08571428571428573 precision: 0.631578947368421 recall: 0.04597701149425287
+ saved to: output_no_unet/0446_kpoint.jpg
+Scatter plot saved to: output_no_unet/0446_gt.jpg
+Total number of points: 479
+f1: 0 precision: 0.0 recall: 0.0
+ saved to: output_no_unet/0447_kpoint.jpg
+Scatter plot saved to: output_no_unet/0447_gt.jpg
+Total number of points: 587
+f1: 0.013136288998357963 precision: 0.18181818181818182 recall: 0.0068143100511073255
+ saved to: output_no_unet/0448_kpoint.jpg
+Scatter plot saved to: output_no_unet/0448_gt.jpg
+Total number of points: 208
+f1: 0 precision: 0.0 recall: 0.0
+ saved to: output_no_unet/0449_kpoint.jpg
+Scatter plot saved to: output_no_unet/0449_gt.jpg
+Total number of points: 230
+f1: 0.24422442244224424 precision: 0.5068493150684932 recall: 0.1608695652173913
+ saved to: output_no_unet/0450_kpoint.jpg
+Scatter plot saved to: output_no_unet/0450_gt.jpg
+Total number of points: 1303
+f1: 0.0015337423312883436 precision: 1.0 recall: 0.0007674597083653108
+ saved to: output_no_unet/0451_kpoint.jpg
+Scatter plot saved to: output_no_unet/0451_gt.jpg
+Total number of points: 254
+f1: 0.06060606060606061 precision: 0.8 recall: 0.031496062992125984
+ saved to: output_no_unet/0452_kpoint.jpg
+Scatter plot saved to: output_no_unet/0452_gt.jpg
+Total number of points: 277
+f1: 0.04827586206896551 precision: 0.5384615384615384 recall: 0.02527075812274368
+ saved to: output_no_unet/0453_kpoint.jpg
+Scatter plot saved to: output_no_unet/0453_gt.jpg
+Total number of points: 397
+f1: 0.028368794326241134 precision: 0.23076923076923078 recall: 0.015113350125944584
+ saved to: output_no_unet/0454_kpoint.jpg
+Scatter plot saved to: output_no_unet/0454_gt.jpg
+Total number of points: 498
+f1: 0.02734375 precision: 0.5 recall: 0.014056224899598393
+ saved to: output_no_unet/0455_kpoint.jpg
+Scatter plot saved to: output_no_unet/0455_gt.jpg
+Total number of points: 165
+f1: 0.1610169491525424 precision: 0.2676056338028169 recall: 0.11515151515151516
+ saved to: output_no_unet/0456_kpoint.jpg
+Scatter plot saved to: output_no_unet/0456_gt.jpg
+Total number of points: 199
+f1: 0.07758620689655173 precision: 0.2727272727272727 recall: 0.04522613065326633
+ saved to: output_no_unet/0457_kpoint.jpg
+Scatter plot saved to: output_no_unet/0457_gt.jpg
+Total number of points: 392
+f1: 0 precision: 0.0 recall: 0.0
+ saved to: output_no_unet/0458_kpoint.jpg
+Scatter plot saved to: output_no_unet/0458_gt.jpg
+Total number of points: 308
+f1: 0 precision: 0.0 recall: 0.0
+ saved to: output_no_unet/0459_kpoint.jpg
+Scatter plot saved to: output_no_unet/0459_gt.jpg
+Total number of points: 199
+f1: 0.13229571984435798 precision: 0.29310344827586204 recall: 0.08542713567839195
+ saved to: output_no_unet/0460_kpoint.jpg
+Scatter plot saved to: output_no_unet/0460_gt.jpg
+Total number of points: 121
+f1: 0.08275862068965517 precision: 0.25 recall: 0.049586776859504134
+ saved to: output_no_unet/0461_kpoint.jpg
+Scatter plot saved to: output_no_unet/0461_gt.jpg
+Total number of points: 266
+f1: 0.24523160762942778 precision: 0.44554455445544555 recall: 0.16917293233082706
+ saved to: output_no_unet/0462_kpoint.jpg
+Scatter plot saved to: output_no_unet/0462_gt.jpg
+Total number of points: 219
+f1: 0.14232209737827714 precision: 0.3958333333333333 recall: 0.0867579908675799
+ saved to: output_no_unet/0463_kpoint.jpg
+Scatter plot saved to: output_no_unet/0463_gt.jpg
+Total number of points: 162
+f1: 0 precision: 0.0 recall: 0.0
+ saved to: output_no_unet/0464_kpoint.jpg
+Scatter plot saved to: output_no_unet/0464_gt.jpg
+Total number of points: 302
+f1: 0.01935483870967742 precision: 0.375 recall: 0.009933774834437087
+ saved to: output_no_unet/0465_kpoint.jpg
+Scatter plot saved to: output_no_unet/0465_gt.jpg
+Total number of points: 1581
+f1: 0.0024906600249066002 precision: 0.08 recall: 0.001265022137887413
+ saved to: output_no_unet/0466_kpoint.jpg
+Scatter plot saved to: output_no_unet/0466_gt.jpg
+Total number of points: 126
+f1: 0.11224489795918366 precision: 0.15714285714285714 recall: 0.0873015873015873
+ saved to: output_no_unet/0467_kpoint.jpg
+Scatter plot saved to: output_no_unet/0467_gt.jpg
+Total number of points: 112
+f1: 0.0903225806451613 precision: 0.16279069767441862 recall: 0.0625
+ saved to: output_no_unet/0468_kpoint.jpg
+Scatter plot saved to: output_no_unet/0468_gt.jpg
+Total number of points: 240
+f1: 0 precision: 0.0 recall: 0.0
+ saved to: output_no_unet/0469_kpoint.jpg
+Scatter plot saved to: output_no_unet/0469_gt.jpg
+Total number of points: 218
+f1: 0.07627118644067797 precision: 0.5 recall: 0.04128440366972477
+ saved to: output_no_unet/0470_kpoint.jpg
+Scatter plot saved to: output_no_unet/0470_gt.jpg
+Total number of points: 672
+f1: 0.04341534008683068 precision: 0.7894736842105263 recall: 0.022321428571428572
+ saved to: output_no_unet/0471_kpoint.jpg
+Scatter plot saved to: output_no_unet/0471_gt.jpg
+Total number of points: 239
+f1: 0.23398328690807796 precision: 0.35 recall: 0.17573221757322174
+ saved to: output_no_unet/0472_kpoint.jpg
+Scatter plot saved to: output_no_unet/0472_gt.jpg
+Total number of points: 1176
+f1: 0.028239202657807307 precision: 0.6071428571428571 recall: 0.01445578231292517
+ saved to: output_no_unet/0473_kpoint.jpg
+Scatter plot saved to: output_no_unet/0473_gt.jpg
+Total number of points: 483
+f1: 0.008032128514056226 precision: 0.13333333333333333 recall: 0.004140786749482402
+ saved to: output_no_unet/0474_kpoint.jpg
+Scatter plot saved to: output_no_unet/0474_gt.jpg
+Total number of points: 129
+f1: 0.0130718954248366 precision: 0.041666666666666664 recall: 0.007751937984496124
+ saved to: output_no_unet/0475_kpoint.jpg
+Scatter plot saved to: output_no_unet/0475_gt.jpg
+Total number of points: 442
+f1: 0 precision: 0.0 recall: 0.0
+ saved to: output_no_unet/0476_kpoint.jpg
+Scatter plot saved to: output_no_unet/0476_gt.jpg
+Total number of points: 213
+f1: 0 precision: 0.0 recall: 0.0
+ saved to: output_no_unet/0477_kpoint.jpg
+Scatter plot saved to: output_no_unet/0477_gt.jpg
+Total number of points: 363
+f1: 0.005263157894736842 precision: 0.058823529411764705 recall: 0.0027548209366391185
+ saved to: output_no_unet/0478_kpoint.jpg
+Scatter plot saved to: output_no_unet/0478_gt.jpg
+Total number of points: 549
+f1: 0.09246575342465753 precision: 0.7714285714285715 recall: 0.04918032786885246
+ saved to: output_no_unet/0479_kpoint.jpg
+Scatter plot saved to: output_no_unet/0479_gt.jpg
+Total number of points: 400
+f1: 0.042654028436018954 precision: 0.4090909090909091 recall: 0.0225
+ saved to: output_no_unet/0480_kpoint.jpg
+Scatter plot saved to: output_no_unet/0480_gt.jpg
+Total number of points: 398
+f1: 0.004545454545454545 precision: 0.023809523809523808 recall: 0.002512562814070352
+ saved to: output_no_unet/0481_kpoint.jpg
+Scatter plot saved to: output_no_unet/0481_gt.jpg
+Total number of points: 216
+f1: 0.2274247491638796 precision: 0.40963855421686746 recall: 0.1574074074074074
+ saved to: output_no_unet/0482_kpoint.jpg
+Scatter plot saved to: output_no_unet/0482_gt.jpg
+Total number of points: 199
+f1: 0 precision: 0.0 recall: 0.0
+mf1: 0.0666974765110423 mpre: 0.34970933205186383 mrecall: 0.03686415188491647
+Batch 9, name: ['0319.jpg', '0320.jpg'], F1: 0.0000, precision: 0.0, recall: 0.0
+
+Batch 10, name: ['0321.jpg', '0322.jpg'], F1: 0.0000, precision: 0.0, recall: 0.0
+
+Batch 22, name: ['0345.jpg', '0346.jpg'], F1: 0.0000, precision: 0.0, recall: 0.0
+

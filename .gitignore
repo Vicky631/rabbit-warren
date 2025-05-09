@@ -1,2 +1,5 @@
 .idea/
 dataset/
+model_checkpoint/
+checkpoint/
+output/
