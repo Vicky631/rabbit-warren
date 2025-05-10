@@ -1,4 +1,17 @@
 import argparse
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
+import sys
+import os
+
+# 插入项目根目录路径到 sys.path 的最前面
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.insert(0, project_root)
+
+import segment_anything
+print(f"segment_anything loaded from: {segment_anything.__file__}")
 
 # from notebooks.RegionMAELoss import RegionMAELoss
 from dataset import TrainDataset, TestDataset, ValDataset
@@ -25,10 +38,10 @@ from utils.utils import PatchAlignedResizer, update_and_save_model, normalize_im
 from utils.wjjimage import TensorVisualizer
 from utils.utils import save_image
 
-sys.path.append('/home/zy/wjj/Prompt_sam_localization')
+
 from segment_anything.build_sam_adapter import sam_model_registry
 # from segment_anything.build_sam_jj import sam_model_registry_jj
-from segment_anything.predictor_jj import SamPredictor
+# from segment_anything.predictor_jj import SamPredictor
 
 
 os.environ['PYTORCH_CUDA_ALLOC_CONF'] = 'max_split_size_mb:128'

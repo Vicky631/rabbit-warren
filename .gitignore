@@ -3,4 +3,4 @@ dataset/
 model_checkpoint/
 checkpoint/
 output/
-clip/clip-vit-large-patch14/pytorch_model.bin
+clip/

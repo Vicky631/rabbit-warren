@@ -7,8 +7,7 @@ GPU_INDEX=0
 THRESHOLD=50
 
 # 要执行的命令列表
-COMMANDS=("export PYTHONPATH=/home/zy/wjj/Prompt_sam_localization/utils:$PYTHONPATH"
-          "python /home/zy/wjj/Prompt_sam_localization/notebooks/0404_adapter.py -data_path /home/zy/wjj/Prompt_sam_localization/dataset/QNRF -data_name QNRF -exp_name 1 -sam_ckpt checkpoint/sam_vit_h_4b8939.pth -save_path model_checkpoint/Adapter_QNRF -mode train >QNRF.txt 2>&1"
+COMMANDS=("python /home/zy/wjj/Prompt_sam_localization/notebooks/0404_adapter.py -data_path /home/zy/wjj/Prompt_sam_localization/dataset/QNRF -data_name QNRF -exp_name 1 -sam_ckpt checkpoint/sam_vit_h_4b8939.pth -save_path model_checkpoint/Adapter_QNRF -mode train >QNRF.txt 2>&1"
           "python /home/zy/wjj/Prompt_sam_localization/notebooks/0404_adapter.py -data_path /home/zy/wjj/Prompt_sam_localization/dataset/NWPU -data_name NWPU -exp_name 1 -sam_ckpt checkpoint/sam_vit_h_4b8939.pth -save_path model_checkpoint/Adapter_NWPU -mode train >NWPU.txt 2>&1"
         )
 
