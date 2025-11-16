@@ -1074,32 +1074,32 @@ def test_evaluate(
 
     batch_results = []
 
-    # ✅ 文件命名：带时间和 data_name
+    # 实验结果文件
     date_str = datetime.now().strftime("%Y%m%d_%H%M")
     result_file = os.path.join(save_path, f"evaluation_{data_name}_{date_str}.txt")
 
     with open(result_file, "w") as f:
         f.write("Evaluation Results:\n" + "=" * 50 + "\n")
-
+    # 初始化总误差统计
     total_mae = 0
     total_mse = 0
     total_samples = 0
 
     with torch.no_grad():
         for batch_idx, data in enumerate(val_dataloader):
+            # === 获取当前批次输入 ===
             try:
                 image, label, text, gt_point = data
             except Exception:
                 image, label, gt_point = data
                 text = None
-
             filenames = val_dataloader.dataset.image_list[
                         batch_idx * image.size(0):(batch_idx + 1) * image.size(0)
                         ]
-
             image = image.to(device)
             label = label.to(device)
 
+            # === 模型预测 ===
             try:
                 denoised_img, pred = model(image, text)
             except Exception:
@@ -1107,29 +1107,35 @@ def test_evaluate(
 
             if label.dim() == 3:
                 label = label.unsqueeze(1)
-
+            # === 初始化当前批次误差统计 ===
             batch_size = pred.size(0)
             batch_f1, batch_precision, batch_recall = 0, 0, 0
-            batch_mae, batch_mse = 0, 0  # ✅ 初始化每个 batch 的误差统计
-
+            batch_mae, batch_mse = 0, 0
+            #  === 遍历每个预测图像 ===
             for b in range(batch_size):
+
+                # 获取当前图像文件名和批次前缀
                 filename = filenames[b]
                 base_name = os.path.splitext(os.path.basename(filename))[0]
                 full_prefix = f"epoch{epoch}_{base_name}"
 
+                # 获取单个图像的预测结果和维度调整
                 single_pred = pred[b]
                 if single_pred.dim() == 3 and single_pred.size(0) != 1:
                     single_pred = single_pred[0]
                 single_pred = single_pred.detach().cpu().squeeze()
 
+                # 转为 numpy
                 denoised_np = denoised_img[b].detach().cpu().numpy()
                 pred_np = single_pred.numpy()
                 label_np = label[b].detach().cpu().squeeze().numpy()
 
+                # 保存
                 save_image(denoised_np, os.path.join(vis_path, f"{full_prefix}_denoised.png"))
                 save_image(pred_np, os.path.join(vis_path, f"{full_prefix}_pred.png"))
                 save_image(label_np, os.path.join(vis_path, f"{full_prefix}_label.png"))
 
+                # 计算 kpoint并保存kpoint图
                 pred_coordinates = extract_coordinates_and_visualize_via_watershed(
                     pred_density_np=single_pred,
                     save_path=vis_path,
@@ -1138,63 +1144,66 @@ def test_evaluate(
                     local_max_size=9,
                 )
 
-                true_coordinates = gt_point[b]
-                gt_np = np.zeros_like(label_np)
-                for coord in true_coordinates:
-                    x, y = coord
-                    if 0 <= x < gt_np.shape[1] and 0 <= y < gt_np.shape[0]:
-                        gt_np[y, x] = 1
-                save_image(gt_np, os.path.join(vis_path, f"{full_prefix}_gt.png"))
+            #     # 获取真实坐标
+            #     true_coordinates = gt_point[b]
+            #     gt_np = np.zeros_like(label_np)
+            #     for coord in true_coordinates:
+            #         x, y = coord
+            #         if 0 <= x < gt_np.shape[1] and 0 <= y < gt_np.shape[0]:
+            #             gt_np[y, x] = 1
+            #     # 保存gt图
+            #     save_image(gt_np, os.path.join(vis_path, f"{full_prefix}_gt.png"))
+            #
+            #     # 计算 F1、Precision、Recall
+            #     f1, precision, recall = calculate_f1_precision_recall(
+            #         pred_coordinates, true_coordinates, match_threshold=8
+            #     )
+            #
+            #     batch_f1 += f1
+            #     batch_precision += precision
+            #     batch_recall += recall
+            #
+            #     pred_count = len(pred_coordinates)
+            #     gt_count = len(true_coordinates)
+            #     mae = abs(pred_count - gt_count)
+            #     mse = (pred_count - gt_count) ** 2
+            #
+            #     # 打印每张图的评估指标
+            #     print(f"[{base_name}] F1: {f1:.4f}, P: {precision:.4f}, R: {recall:.4f}, MAE: {mae}, MSE: {mse}")
+            #
+            #     # 统计全局误差
+            #     total_mae += mae
+            #     total_mse += mse
+            #     total_samples += 1
+            #
+            #     # 累加 batch 内误差
+            #     batch_mae += mae
+            #     batch_mse += mse
+            #
+            # # batch 内平均
+            # batch_f1 /= batch_size
+            # batch_precision /= batch_size
+            # batch_recall /= batch_size
+            # batch_mae /= batch_size
+            # batch_mse /= batch_size
+            #
+            # batch_results.append({
+            #     "batch_idx": batch_idx,
+            #     "filenames": filenames,
+            #     "f1": batch_f1,
+            #     "precision": batch_precision,
+            #     "recall": batch_recall,
+            # })
+            #
+            # # 写入 batch 级结果
+            # with open(result_file, "a") as f:
+            #     f.write(f"Batch Index: {batch_idx}\n")
+            #     f.write(
+            #         f"F1: {batch_f1:.4f}, Precision: {batch_precision:.4f}, Recall: {batch_recall:.4f}, MAE: {batch_mae:.2f}, MSE: {batch_mse:.2f}\n")
+            #     f.write(f"Files: {', '.join(filenames)}\n")
+            #     f.write("=" * 50 + "\n")
 
-                f1, precision, recall = calculate_f1_precision_recall(
-                    pred_coordinates, true_coordinates, match_threshold=8
-                )
-
-                batch_f1 += f1
-                batch_precision += precision
-                batch_recall += recall
-
-                pred_count = len(pred_coordinates)
-                gt_count = len(true_coordinates)
-                mae = abs(pred_count - gt_count)
-                mse = (pred_count - gt_count) ** 2
-
-                # ✅ 打印每张图的评估指标
-                print(f"[{base_name}] F1: {f1:.4f}, P: {precision:.4f}, R: {recall:.4f}, MAE: {mae}, MSE: {mse}")
-
-                # ✅ 统计全局误差
-                total_mae += mae
-                total_mse += mse
-                total_samples += 1
-
-                # ✅ 累加 batch 内误差
-                batch_mae += mae
-                batch_mse += mse
-
-            # ✅ batch 内平均
-            batch_f1 /= batch_size
-            batch_precision /= batch_size
-            batch_recall /= batch_size
-            batch_mae /= batch_size
-            batch_mse /= batch_size
-
-            batch_results.append({
-                "batch_idx": batch_idx,
-                "filenames": filenames,
-                "f1": batch_f1,
-                "precision": batch_precision,
-                "recall": batch_recall,
-            })
-
-            # ✅ 写入 batch 级结果
-            with open(result_file, "a") as f:
-                f.write(f"Batch Index: {batch_idx}\n")
-                f.write(
-                    f"F1: {batch_f1:.4f}, Precision: {batch_precision:.4f}, Recall: {batch_recall:.4f}, MAE: {batch_mae:.2f}, MSE: {batch_mse:.2f}\n")
-                f.write(f"Files: {', '.join(filenames)}\n")
-                f.write("=" * 50 + "\n")
-
-    # ✅ 整体平均指标
+    # 整体平均指标
     mean_precision = np.mean([r["precision"] for r in batch_results])
     mean_recall = np.mean([r["recall"] for r in batch_results])
     mean_f1 = 2 * (mean_precision * mean_recall) / (mean_precision + mean_recall + 1e-6)
@@ -1207,7 +1216,7 @@ def test_evaluate(
         f.write("=" * 50 + "\n")
 
     print(
-        f"\n✅ Evaluate Done! mF1: {mean_f1:.4f}, mP: {mean_precision:.4f}, mR: {mean_recall:.4f}, MAE: {mean_mae:.2f}, MSE: {mean_mse:.2f}")
+        f"\n Evaluate Done! mF1: {mean_f1:.4f}, mP: {mean_precision:.4f}, mR: {mean_recall:.4f}, MAE: {mean_mae:.2f}, MSE: {mean_mse:.2f}")
 
     # ❗ 找出 F1 最低的 batch
     lowest_batches = sorted(batch_results, key=lambda x: x["f1"])[:3]
