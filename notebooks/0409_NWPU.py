@@ -30,7 +30,6 @@ from segment_anything.build_sam_adapter import sam_model_registry
 # from segment_anything.build_sam_jj import sam_model_registry_jj
 from segment_anything.predictor_jj import SamPredictor
 
-
 os.environ['PYTORCH_CUDA_ALLOC_CONF'] = 'max_split_size_mb:128'
 
 
@@ -68,6 +67,7 @@ def setup_logger(log_file="training.log"):
         logger.addHandler(stream_handler)
 
     return logger
+
 
 import torch.nn.functional as F
 import numpy as np
@@ -111,14 +111,15 @@ def extract_peak_points(mask, threshold_ratio=0.3, kernel_size=3, max_points=100
     return coords, labels
 
     # SAM 模型
+
+
 class Sam_model(nn.Module):
-    def __init__(self, args,model_type, sam_checkpoint):
+    def __init__(self, args, model_type, sam_checkpoint):
         super(Sam_model, self).__init__()
-        self.sam = sam_model_registry[model_type](args,checkpoint=sam_checkpoint).cuda()
+        self.sam = sam_model_registry[model_type](args, checkpoint=sam_checkpoint).cuda()
         self.image_encoder = self.sam.image_encoder
         self.prompt_encoder = self.sam.prompt_encoder
         self.mask_decoder = self.sam.mask_decoder
-
 
     def forward(self, x, points, text=None):
         """
@@ -161,13 +162,11 @@ class Sam_model(nn.Module):
         return pred
 
 
-
-
 class Model(nn.Module):
     def __init__(self, args, model_type, sam_checkpoint):
         super().__init__()
         # Load SAM
-        self.sam = Sam_model(args, model_type=model_type,sam_checkpoint=args.sam_ckpt)
+        self.sam = Sam_model(args, model_type=model_type, sam_checkpoint=args.sam_ckpt)
         # if args.fine_tuning_configuration:
         #     sam_no_freeze_block = [f"blocks.{idx}." for idx, i in enumerate(args.fine_tuning_configuration) if i == 1]
         #
@@ -248,7 +247,7 @@ class Model(nn.Module):
             )
 
             pred, _ = self.sam.mask_decoder(
-                image_embeddings=image_embeddings[i:i+1],
+                image_embeddings=image_embeddings[i:i + 1],
                 image_pe=self.sam.prompt_encoder.get_dense_pe(),
                 sparse_prompt_embeddings=sparse_embeddings,
                 dense_prompt_embeddings=dense_embeddings,
@@ -260,7 +259,6 @@ class Model(nn.Module):
         # pred_masks = F.interpolate(pred_masks, size=(H, W), mode='bilinear', align_corners=False)
 
         return x, pred_masks
-
 
 
 # 可视化保存函数
@@ -638,6 +636,7 @@ import numpy as np
 import torch
 from scipy import ndimage
 
+
 def extract_coordinates_and_visualize_via_watershed(pred_density_np, save_path, filename, min_area=1, local_max_size=9):
     """
     使用增强分水岭方法 + 方形拟合（补充点） 提取中心点并可视化，支持保存为 CHW 图像。
@@ -716,11 +715,6 @@ def extract_coordinates_and_visualize_via_watershed(pred_density_np, save_path, 
     return coordinates_a
 
 
-
-
-
-
-
 def generate_pointmap_and_save(kpoint, coordinates, save_path, filename, rate=1):
     """
     生成点坐标地图并保存。
@@ -753,8 +747,6 @@ def generate_pointmap_and_save(kpoint, coordinates, save_path, filename, rate=1)
     # print(f" saved to: {save_file}_kpoint")
 
     return coordinates
-
-
 
 
 def calculate_f1_precision_recall(pred_coordinates, true_coordinates, match_threshold=5):
@@ -813,22 +805,20 @@ def calculate_f1_precision_recall(pred_coordinates, true_coordinates, match_thre
     return f1, precision, recall
 
 
-
-
 def predict_torch(
         predictor,
-        point_coords = None,
-        point_labels = None,
-        boxes = None,
-        multimask_output = True,
-    ) :
+        point_coords=None,
+        point_labels=None,
+        boxes=None,
+        multimask_output=True,
+):
     '''
     This function is copied from segment anything predictor and modified for
     '''
-        #we modify the definition of point_labels here to define pos point point label = 1 , neg point label = 0
+    # we modify the definition of point_labels here to define pos point point label = 1 , neg point label = 0
     if point_coords is not None:
         assert len(point_coords) == len(point_labels)
-        points = (point_coords,  point_labels)
+        points = (point_coords, point_labels)
     else:
         points = None
 
@@ -846,9 +836,9 @@ def predict_torch(
         sparse_prompt_embeddings=sparse_embeddings,
         dense_prompt_embeddings=dense_embeddings,
         multimask_output=multimask_output,
-        dino_feats = predictor.dino_feats,
+        dino_feats=predictor.dino_feats,
     )
-    #B,C,H,W -> B,H,W,C for MLP to process
+    # B,C,H,W -> B,H,W,C for MLP to process
     return low_res_masks, iou_predictions, cls_scores
 
 
@@ -872,7 +862,7 @@ def cache_feature(image, sam, max_steps=100, feat_size=40, patch_size=14, debug=
 
     cache = []
 
-    imgs=image
+    imgs = image
 
     # Select one image for training
     image = imgs[0]
@@ -881,27 +871,21 @@ def cache_feature(image, sam, max_steps=100, feat_size=40, patch_size=14, debug=
     img_height, img_width = image_np.shape[1:]
     image_np = np.transpose(image_np, (1, 2, 0))
 
-
     # Set the image in the SAM model
     sam.set_image(image_np)
-
-
-
-
-
 
     # Get DINO features
     dino_features = sam.dino_feats
 
     # Cache the image embeddings, DINO features, target boxes, image dimensions, and masks
-    cache.append([sam.get_image_embedding().cuda(), dino_features.cuda(),  (img_height, img_width),
+    cache.append([sam.get_image_embedding().cuda(), dino_features.cuda(), (img_height, img_width),
                   ])
 
     return cache
 
 
 # 训练函数
-def train( model, train_dataloader, optimizer, lossfunc, threshold, device, epoch, logger, save_path):
+def train(model, train_dataloader, optimizer, lossfunc, threshold, device, epoch, logger, save_path):
     model.train()
     train_loss, iou_list, dice_list = [], [], []
 
@@ -955,6 +939,7 @@ def train( model, train_dataloader, optimizer, lossfunc, threshold, device, epoc
     )
     return loss_mean, iou_mean, dice_mean
 
+
 def evaluate(model, val_dataloader, lossfunc, threshold, device, save_path, epoch):
     """
     评估模型在验证集上的性能，并可视化结果。
@@ -1007,8 +992,8 @@ def evaluate(model, val_dataloader, lossfunc, threshold, device, save_path, epoc
             # === batch 文件名 ===
             batch_size = pred.size(0)
             filenames = val_dataloader.dataset.image_list[
-                batch_idx * batch_size : (batch_idx + 1) * batch_size
-            ]
+                        batch_idx * batch_size: (batch_idx + 1) * batch_size
+                        ]
             assert len(filenames) == batch_size, "filenames 数量与 batch size 不一致"
 
             for b in range(batch_size):
@@ -1074,7 +1059,6 @@ def evaluate(model, val_dataloader, lossfunc, threshold, device, save_path, epoc
     return loss_mean, iou_mean, dice_mean
 
 
-
 def test_evaluate(
         model, val_dataloader, lossfunc, threshold, device,
         save_path, data_name, epoch=0
@@ -1110,8 +1094,8 @@ def test_evaluate(
                 text = None
 
             filenames = val_dataloader.dataset.image_list[
-                batch_idx * image.size(0):(batch_idx + 1) * image.size(0)
-            ]
+                        batch_idx * image.size(0):(batch_idx + 1) * image.size(0)
+                        ]
 
             image = image.to(device)
             label = label.to(device)
@@ -1146,14 +1130,13 @@ def test_evaluate(
                 save_image(pred_np, os.path.join(vis_path, f"{full_prefix}_pred.png"))
                 save_image(label_np, os.path.join(vis_path, f"{full_prefix}_label.png"))
 
-                pred_coordinates=extract_coordinates_and_visualize_via_watershed(
+                pred_coordinates = extract_coordinates_and_visualize_via_watershed(
                     pred_density_np=single_pred,
                     save_path=vis_path,
                     filename=f"{full_prefix}_kpoint.png",
                     min_area=1,
                     local_max_size=9,
                 )
-
 
                 true_coordinates = gt_point[b]
                 gt_np = np.zeros_like(label_np)
@@ -1206,7 +1189,8 @@ def test_evaluate(
             # ✅ 写入 batch 级结果
             with open(result_file, "a") as f:
                 f.write(f"Batch Index: {batch_idx}\n")
-                f.write(f"F1: {batch_f1:.4f}, Precision: {batch_precision:.4f}, Recall: {batch_recall:.4f}, MAE: {batch_mae:.2f}, MSE: {batch_mse:.2f}\n")
+                f.write(
+                    f"F1: {batch_f1:.4f}, Precision: {batch_precision:.4f}, Recall: {batch_recall:.4f}, MAE: {batch_mae:.2f}, MSE: {batch_mse:.2f}\n")
                 f.write(f"Files: {', '.join(filenames)}\n")
                 f.write("=" * 50 + "\n")
 
@@ -1222,7 +1206,8 @@ def test_evaluate(
         f.write(f"MAE: {mean_mae:.2f}, MSE: {mean_mse:.2f}\n")
         f.write("=" * 50 + "\n")
 
-    print(f"\n✅ Evaluate Done! mF1: {mean_f1:.4f}, mP: {mean_precision:.4f}, mR: {mean_recall:.4f}, MAE: {mean_mae:.2f}, MSE: {mean_mse:.2f}")
+    print(
+        f"\n✅ Evaluate Done! mF1: {mean_f1:.4f}, mP: {mean_precision:.4f}, mR: {mean_recall:.4f}, MAE: {mean_mae:.2f}, MSE: {mean_mse:.2f}")
 
     # ❗ 找出 F1 最低的 batch
     lowest_batches = sorted(batch_results, key=lambda x: x["f1"])[:3]
@@ -1246,6 +1231,7 @@ def custom_collate_fn(batch):
 
     # gt_points 仍然是 list of lists
     return images, labels, list(gt_points)
+
 
 # 主程序
 if __name__ == '__main__':
@@ -1273,10 +1259,10 @@ if __name__ == '__main__':
     args = parser.parse_args()
     config = utils.load_config(args.config_file)
 
-
     set_seed()
+
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    model = Model(args,model_type=args.model_type, sam_checkpoint=args.sam_ckpt).to(device)
+    model = Model(args, model_type=args.model_type, sam_checkpoint=args.sam_ckpt).to(device)
     lossfunc = DiceCELoss(sigmoid=True, squared_pred=True, reduction='mean')
     # # lossfunc=RegionMAELoss(weight=1.0, bkg_weight=0.1, ratio=0.9)
     #
@@ -1300,7 +1286,7 @@ if __name__ == '__main__':
             dataset=test_data,
             batch_size=args.bs,
             shuffle=False,
-            collate_fn = custom_collate_fn
+            collate_fn=custom_collate_fn
         )
 
         # 检查是否提供了 ckpt 路径，并检查路径是否有效
@@ -1340,7 +1326,8 @@ if __name__ == '__main__':
         model.load_state_dict(model_state_dict, strict=True)
 
         # 测试模型
-        f1, mean_precision, mean_recall, mean_mae, mean_mse = test_evaluate(model, test_dataloader, lossfunc, threshold, device,args.save_path,args.data_name)
+        f1, mean_precision, mean_recall, mean_mae, mean_mse = test_evaluate(model, test_dataloader, lossfunc, threshold,
+                                                                            device, args.save_path, args.data_name)
 
 
     elif args.mode == 'train':
@@ -1378,9 +1365,11 @@ if __name__ == '__main__':
         }
 
         for epoch in range(args.epochs):
-            train_loss, train_iou, train_dice = train(model, train_dataloader, optimizer, lossfunc, threshold, device, epoch, logger, args.save_path)
+            train_loss, train_iou, train_dice = train(model, train_dataloader, optimizer, lossfunc, threshold, device,
+                                                      epoch, logger, args.save_path)
             torch.cuda.empty_cache()
-            val_loss, val_iou, val_dice = evaluate(model, val_dataloader, lossfunc, threshold, device, args.save_path,epoch)
+            val_loss, val_iou, val_dice = evaluate(model, val_dataloader, lossfunc, threshold, device, args.save_path,
+                                                   epoch)
 
             # # 全局策略一：每轮 val_loss 更小就保存
             # best_loss = update_and_save_model(
