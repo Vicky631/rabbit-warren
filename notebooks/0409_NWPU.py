@@ -1235,6 +1235,7 @@ def custom_collate_fn(batch):
 
 # 主程序
 if __name__ == '__main__':
+    # 参数解析
     parser = argparse.ArgumentParser()
     parser.add_argument('-data_path', type=str, required=True, help='Dataset path')
     parser.add_argument('-data_name', type=str, required=True, help='Dataset name')
@@ -1258,25 +1259,27 @@ if __name__ == '__main__':
                         help="1: doesn't freeze the specific block, 0: freeze the block")
     args = parser.parse_args()
     config = utils.load_config(args.config_file)
-
+    # 设置随机种子
     set_seed()
-
+    # 设备和模型
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model = Model(args, model_type=args.model_type, sam_checkpoint=args.sam_ckpt).to(device)
+    # 损失函数
     lossfunc = DiceCELoss(sigmoid=True, squared_pred=True, reduction='mean')
-    # # lossfunc=RegionMAELoss(weight=1.0, bkg_weight=0.1, ratio=0.9)
-    #
+    # lossfunc=RegionMAELoss(weight=1.0, bkg_weight=0.1, ratio=0.9)
     # lossfunc = DiceFocalLoss(sigmoid=True, squared_pred=True, reduction='mean')
+
+    # 测试阈值
     threshold = (0.1, 0.3, 0.5, 0.7, 0.9)
+    # 日志路径设置
     log_path = os.path.join(args.save_path, "log", f"{datetime.now().strftime('%m%d_%H_%M')}.txt")
     logger = setup_logger(log_path)
-
+    # 模型测试分支
     if args.mode == 'test':
         test_data = TestDataset(
             os.path.join(args.data_path, 'images/'),
             os.path.join(args.data_path, 'labels/'),
             # os.path.join(args.data_path, 'test/text/'),
-
             None,
             os.path.join(args.data_path),
             is_robustness=False  # 或者根据需求设置为 True
@@ -1299,17 +1302,17 @@ if __name__ == '__main__':
         #
         # # 获取模型的层名
         # model_keys = set(model.state_dict().keys())
-        #
+
         # # 获取 state_dict 中的层名
         # state_dict_keys = set(state_dict.keys())
-        #
+
         # # 打印出不匹配的层（模型中有但是 state_dict 中没有的层）
         # missing_keys = model_keys - state_dict_keys
         # if missing_keys:
         #     print("Missing keys (in model but not in state_dict):")
         #     for key in missing_keys:
         #         print(key)
-        #
+
         # # 打印出不匹配的层（state_dict 中有但是模型中没有的层）
         # unexpected_keys = state_dict_keys - model_keys
         # if unexpected_keys:
@@ -1328,9 +1331,9 @@ if __name__ == '__main__':
         # 测试模型
         f1, mean_precision, mean_recall, mean_mae, mean_mse = test_evaluate(model, test_dataloader, lossfunc, threshold,
                                                                             device, args.save_path, args.data_name)
-
-
+    # 模型训练分支
     elif args.mode == 'train':
+        # 加载训练数据集和验证数据集
         train_data = TrainDataset(
             os.path.join(args.data_path, 'train/images/'),
             os.path.join(args.data_path, 'train/labels/'),
@@ -1338,14 +1341,13 @@ if __name__ == '__main__':
             # os.path.join(args.data_path, 'train/text/'),
             is_robustness=False  # 如果需要
         )
-
         val_data = TestDataset(
             os.path.join(args.data_path, 'valid/images/'),
             os.path.join(args.data_path, 'valid/labels/'),  # os.path.join(args.data_path, 'valid/groundtruth/'),
             # os.path.join(args.data_path, 'valid/text/'),
             is_robustness=False  # 如果需要
         )
-
+        # 数据加载器
         train_dataloader = DataLoader(train_data, batch_size=args.bs, shuffle=True)
         val_dataloader = DataLoader(val_data, batch_size=args.bs, shuffle=True)
 
@@ -1356,22 +1358,25 @@ if __name__ == '__main__':
         #
         #         print("-" * 30)
 
+        # 优化器
         optimizer = torch.optim.Adam(filter(lambda p: p.requires_grad, model.parameters()), lr=args.lr)
-
+        # 初始化损失
         best_loss = float('inf')
         interval_cache = {
             "best_loss": float("inf"),  # 当前区间内最优 val_loss
             "best_epoch": None,  # 当前区间内最佳 epoch
         }
-
+        # 训练
         for epoch in range(args.epochs):
+            # 训练
             train_loss, train_iou, train_dice = train(model, train_dataloader, optimizer, lossfunc, threshold, device,
                                                       epoch, logger, args.save_path)
+            # 验证
             torch.cuda.empty_cache()
             val_loss, val_iou, val_dice = evaluate(model, val_dataloader, lossfunc, threshold, device, args.save_path,
                                                    epoch)
 
-            # # 全局策略一：每轮 val_loss 更小就保存
+            # 保存模型：最小val_loss
             # best_loss = update_and_save_model(
             #     model, "./checkpoints", val_loss, epoch,
             #     best_loss=best_loss,
@@ -1381,8 +1386,7 @@ if __name__ == '__main__':
             #     save_strategy="always_best"
             # )
 
-            # 全局策略二：每 10 个 epoch 保存一个阶段内最优
-
+            # 保存模型：每 10 个 epoch 保存一个阶段内最优
             update_and_save_model(
                 model,
                 os.path.join(args.save_path, "model"),
