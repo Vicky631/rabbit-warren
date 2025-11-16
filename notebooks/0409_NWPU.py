@@ -83,7 +83,7 @@ def extract_peak_points(mask, threshold_ratio=0.3, kernel_size=3, max_points=100
 
     mask = mask.clone().detach()
 
-    # ✅ 显式做 sigmoid 归一化（避免负值造成误提点）
+    # 显式做 sigmoid 归一化（避免负值造成误提点）
     mask = torch.sigmoid(mask)
 
     max_val = mask.max().item()
@@ -191,7 +191,7 @@ class Model(nn.Module):
 
         # Load frozen DINOv2 + classifier
         self.dino_seg = load_trained_dino_seg_model(
-            "/home/zy/wjj/dinol/outputs2/model_epoch44.pth"
+            "/home/zy/wjj/Prompt_sam_localization/checkpoint/model_epoch44.pth"
         )
         self.dino_seg.eval()
         for param in self.dino_seg.parameters():
@@ -1291,6 +1291,7 @@ if __name__ == '__main__':
             # os.path.join(args.data_path, 'test/text/'),
             None,
             os.path.join(args.data_path),
+            # None,
             is_robustness=False  # 或者根据需求设置为 True
         )
 

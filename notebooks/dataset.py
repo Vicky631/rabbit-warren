@@ -365,13 +365,13 @@ class TestDataset:
                 #                 image_names.append(int(parts[0]))  # 添加第一列到列表中
                 #         except ValueError:
                 #             continue  # 忽略无法转换为整数的行
-        if "pest" in gt_path:
+        if "PEST" in gt_path:
             file_path = os.path.join(gt_path, "test.txt")  # 假设要读取的是test.txt，可按需修改
             with open(file_path, 'r') as f:
                 lines = f.readlines()
                 self.image_list = [line.strip().split()[0] + '.jpg' for line in lines]
-                self.label_list = [line.strip().split()[0] + '.jng' for line in lines]
-
+                self.label_list = [line.strip().split()[0] + '.jpg' for line in lines]
+                self.gt_path = None
         # else:
         #     self.image_list = sorted(os.listdir(self.image_path))
         #     self.label_list = sorted(os.listdir(self.label_path))

@@ -10,7 +10,7 @@ import torch
 from typing import Optional, Tuple
 import math
 
-from tools.wjjimage import TensorVisualizer
+from utils.wjjimage import TensorVisualizer
 from .utils.transforms import ResizeLongestSide
 class SamPredictor:
     def __init__(
