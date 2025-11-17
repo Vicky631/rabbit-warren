@@ -1344,19 +1344,22 @@ if __name__ == '__main__':
     # 模型训练分支
     elif args.mode == 'train':
         # 加载训练数据集和验证数据集
-        train_data = TrainDataset(
-            os.path.join(args.data_path, 'train/images/'),
-            os.path.join(args.data_path, 'train/labels/'),
-            # os.path.join(args.data_path, 'train/groundtruth/'),
-            # os.path.join(args.data_path, 'train/text/'),
-            is_robustness=False  # 如果需要
-        )
-        val_data = TestDataset(
-            os.path.join(args.data_path, 'valid/images/'),
-            os.path.join(args.data_path, 'valid/labels/'),  # os.path.join(args.data_path, 'valid/groundtruth/'),
-            # os.path.join(args.data_path, 'valid/text/'),
-            is_robustness=False  # 如果需要
-        )
+        if args.data_name = "FSC147":
+
+        else:
+            train_data = TrainDataset(
+                os.path.join(args.data_path, 'train/images/'),
+                os.path.join(args.data_path, 'train/labels/'),
+                # os.path.join(args.data_path, 'train/groundtruth/'),
+                # os.path.join(args.data_path, 'train/text/'),
+                is_robustness=False  # 如果需要
+            )
+            val_data = TestDataset(
+                os.path.join(args.data_path, 'valid/images/'),
+                os.path.join(args.data_path, 'valid/labels/'),  # os.path.join(args.data_path, 'valid/groundtruth/'),
+                # os.path.join(args.data_path, 'valid/text/'),
+                is_robustness=False  # 如果需要
+            )
         # 数据加载器
         train_dataloader = DataLoader(train_data, batch_size=args.bs, shuffle=True)
         val_dataloader = DataLoader(val_data, batch_size=args.bs, shuffle=True)

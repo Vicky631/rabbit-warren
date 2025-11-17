@@ -40,7 +40,7 @@ class FSC147(Dataset):
         assert split in ['train', 'val', 'test' , 'val_coco', 'test_coco']
 
         #!HARDCODED Dec 25: 
-        self.data_dir = "data/FSC/"
+        self.data_dir = "/data/wjj/"
         self.dataset_type = 'FSC_147'
 
         self.resize_val = resize_val
@@ -162,7 +162,8 @@ class FSC147(Dataset):
             gt_map = gt_map * 60
             
             sample = {'image':image,'dots':dots, 'boxes':boxes, 'pos':rects, 'gt_map':gt_map}
-            return sample['image'].float(), sample['gt_map'], sample['boxes'], sample['pos'], text
+            # return sample['image'].float(), sample['gt_map'], sample['boxes'], sample['pos'], text
+            return sample['image'].float(), sample['gt_map'], sample['boxes'], text
 
 class ResizePreTrainImage(object):
     """
