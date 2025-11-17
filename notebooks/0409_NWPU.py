@@ -1346,8 +1346,11 @@ if __name__ == '__main__':
     elif args.mode == 'train':
         # 加载训练数据集和验证数据集
         if args.data_name == "FSC147":
-            train_data = FSC147(
+            train_data = FSC147.FSC147(
                 args.mode,
+                1.0,
+                True,
+                False
             )
 
         else:
