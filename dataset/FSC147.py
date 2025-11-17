@@ -23,7 +23,7 @@ from imgaug.augmentables import Keypoint, KeypointsOnImage
 MAX_HW = 384
 IM_NORM_MEAN = [0.485, 0.456, 0.406]
 IM_NORM_STD = [0.229, 0.224, 0.225]
-
+# FSC147
 class FSC147(Dataset):
     def __init__(self, 
                  split:str, 
