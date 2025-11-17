@@ -24,6 +24,7 @@ from utils import utils
 from utils.utils import PatchAlignedResizer, update_and_save_model, normalize_image_to_uint8
 from utils.wjjimage import TensorVisualizer
 from utils.utils import save_image
+from utils import FSC147
 
 sys.path.append('/home/zy/wjj/Prompt_sam_localization')
 from segment_anything.build_sam_adapter import sam_model_registry
@@ -1344,7 +1345,10 @@ if __name__ == '__main__':
     # 模型训练分支
     elif args.mode == 'train':
         # 加载训练数据集和验证数据集
-        if args.data_name = "FSC147":
+        if args.data_name == "FSC147":
+            train_data = FSC147(
+                args.mode,
+            )
 
         else:
             train_data = TrainDataset(
